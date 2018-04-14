@@ -1,13 +1,35 @@
 #include <iostream>
 #include <stdio.h>
 #include <locale.h>
+#ifndef __APPLE__
 #include <conio.h>
+#endif
 #include <string>
+#ifndef __APPLE__
 #include <malloc.h>
+#endif
 
 using namespace std;
 
-//						                 Блок ЧАВО                                                     \\
+int __getch()
+{
+#ifdef __APPLE__
+	return getchar();
+#else
+	return _getch();
+#endif
+}
+
+template<typename... Args> int _scanf(Args... TArgs)
+{
+#ifdef __APPLE__
+	return scanf(TArgs...);
+#else
+	return scanf_s(TArgs...);
+#endif
+}
+
+//                                         Блок ЧАВО                                                     \\
 // Проект выполнен на языке С/С++ в среде Microsoft Visual Studio 2013 студентами групп 7301, 7305 и 7307.
 //
 // _getch() читает вводимый символ с клавиатуры без вывода его на экран консоли.
@@ -17,21 +39,21 @@ using namespace std;
 // 13 - Enter.
 // 27 - Esc.
 // Коды для остальных кнопок можно получить из интернета или простейшим присвоением _getch() переменной типа int, а затем выводом этой самой переменной.
-// 
+//
 // Переменные, используемые мной в меню:
 // index - счётчик-номер строки.
 // tmp - временная переменная, хранящая в себе введённый символ.
 // module - массивы с выводимыми строками (для каждой функции свой массив).
 // prevIndex - счётчик-номер, который проверяет изменение индекса.
-// 
+//
 // Сдвиг курсора (знака >) во всех функциях производится с помощью одинакового использования _getch() и работы с результатом функции.
 // Алгоритм сам по себе элементарный: если номер _getch() равен коду кнопки стрелки вверх, то уменьшение индекса, аналогично для стрелки вниз.
 // Также проводятся проверки, что индексы не выйдут за границы массивов module.
-// 
+//
 // Выполнение программы строится по типу: функция, хранящая в себе функции, каждая из которых в себе хранит функции, которые, в свою очередь, также хранят в себе функции.
-// 
+//
 // Каждая новая версия программы несёт в себе малые (и не малые) изменения, которые значительно влияют и улучшают (а также дополняют) саму программу.
-// То есть каждая новая программа по факту является улучшенной и оптимизированной версией каждой предыдущей. 
+// То есть каждая новая программа по факту является улучшенной и оптимизированной версией каждой предыдущей.
 // Первая цифра версии обозначает количество раз, сколько раз код был написан заново.
 // Вторая цифра версии обозначает количество раз, когда уже в созданном коде были внесены значительные крупные изменения.
 // Третья цифра версии обозначает количество раз, когда уже в созданном коде были внесены значительные малые изменения.
@@ -70,7 +92,7 @@ void inputDig(int &digit)
 	digit = -1;
 	do
 	{
-		tmp = _getch();
+		tmp = __getch();
 		if ((tmp >= 48) && (tmp <= 57) && (digit == -1))
 		{
 			digit = tmp - 48;
@@ -95,7 +117,7 @@ void inputNumber(int &sign, int &size, int * &number)
 
 	do
 	{
-		tmp = _getch();
+		tmp = __getch();
 		if (inputSymbol(tmp, sign))
 		{
 			if ((tmp == 45) && (!isMinusWritten) && (sign != -1))
@@ -124,7 +146,7 @@ void inputNumber(int &sign, int &size, int * &number)
 			}
 		}
 
-		if (tmp == 13)
+		if (tmp == 13 || tmp == '\n')
 		{
 			if (size > 0)
 				flag = true;
@@ -388,7 +410,7 @@ int POZ_Z_D(int sign, int sum, int *arr) {
 		if (arr[0] == 0) {//если изначально аргумент знака не равен единицы то число отрицательное или равно 0, если первое число в массиве равно 0  - возвращаем 0(число равно 0)
 			return 0;
 		}
-		else {			//если первое число в массиве не равно 0  - возвращаем 2(число положительное)
+		else {            //если первое число в массиве не равно 0  - возвращаем 2(число положительное)
 			return 2;
 		}
 	}
@@ -414,7 +436,7 @@ void MUL_ZM_Z(int *sign, int sum, int *arr)
 			}
 			cout << "\n";
 		}
-		else {			//если первое число в массиве не равно 0  - число положительное и при умножении на (-1) получаем отрицательное число
+		else {            //если первое число в массиве не равно 0  - число положительное и при умножении на (-1) получаем отрицательное число
 			cout << "После умножения на (-1) получаем: -";
 			for (int i = 0; i <= sum; i++) {
 				cout << arr[i];
@@ -502,25 +524,25 @@ void DIV_NN_Dk(int n1, int n2, int *A1, int *A2, int D, int **A11, int *n11)
 	n3 = n1;
 	if (D == 2)
 	{
-		F = COM_NN_D(n2, n2, A1, A2); ///сравнение цифр по длине 2 числа 
+		F = COM_NN_D(n2, n2, A1, A2); ///сравнение цифр по длине 2 числа
 
-		if ((F == 2) || (F == 0)) ///поиск разряда цифры 
+		if ((F == 2) || (F == 0)) ///поиск разряда цифры
 			k = n3 - n2;
 		else
 			k = n3 - n2 - 1;
 
-		MUL_Nk_N(n2, A2, k, &A10, &n10); ///умножение цифры на 10^k 
+		MUL_Nk_N(n2, A2, k, &A10, &n10); ///умножение цифры на 10^k
 
 		F = COM_NN_D(n3, n10, A3, A10);
 
 
-		while (F != 1) ///цикл со счетчиком искомой цифры 
+		while (F != 1) ///цикл со счетчиком искомой цифры
 		{
 			SUB_NN_N(n3, n10, A3, A10, F, &n6, &A6);
 			m++;
 			F = COM_NN_D(n6, n10, A6, A10);
 
-			n3 = n6; ///необходимые перемещения массивов, чтобы функция вычитания работала в цикле 
+			n3 = n6; ///необходимые перемещения массивов, чтобы функция вычитания работала в цикле
 			A3 = (int*)realloc(A3, n3 * sizeof(int));
 			for (i = 0; i<n3; i++)
 				A3[i] = A6[i];
@@ -791,10 +813,10 @@ void ADD_ZZ_Z(int *sum1, int *arr1, int *sign1, int *sum2, int *arr2, int *sign2
 void SUB_ZZ_Z(int *sum1, int *arr1, int *sign1, int *sum2, int *arr2, int *sign2, int *sum3, int *&arr3, int *sign3) {
 	int D = 2;
 	//if (COM_NN_D(*sum1, *sum2, arr1, arr2) == 2 || COM_NN_D(*sum1, *sum2, arr1, arr2) == 0) {//выясняем какой размер массива нам нужен для суммы чисел и выбираем максимальнуюиз них
-	//	*sum3 = *sum1;
+	//    *sum3 = *sum1;
 	//}
 	//else {
-	//	*sum3 = *sum2;
+	//    *sum3 = *sum2;
 	//}
 	//int *arr3 = new int[*sum3 + 2];//создаем массив
 	if (*sign1 != *sign2) {//если знаки у чисел разные - складываем модули чисел и задаем знак нашей суммы равным знаку первого
@@ -811,13 +833,13 @@ void SUB_ZZ_Z(int *sum1, int *arr1, int *sign1, int *sum2, int *arr2, int *sign2
 		//*sign3 = *sign1;
 	}
 	else {
-		if (POZ_Z_D(*sign1, *sum1, arr1) == 2 || POZ_Z_D(*sign1, *sum1, arr1) == 0) {//если знаки равны то определяем какого знака числа, далее выясняем какое из них по модулю больше 
+		if (POZ_Z_D(*sign1, *sum1, arr1) == 2 || POZ_Z_D(*sign1, *sum1, arr1) == 0) {//если знаки равны то определяем какого знака числа, далее выясняем какое из них по модулю больше
 			if (COM_NN_D((*sum1), (*sum2), arr1, arr2) == 2 || COM_NN_D((*sum1), (*sum2), arr1, arr2) == 0) {//и в зависимости от этого складываем или вычитаем модули чисел и задаем нужный знак
 				*sign3 = 0;
 				SUB_NN_N((*sum1), (*sum2), arr1, arr2, D, sum3, &arr3);
 				//первое больше нуля или равно 0, второе больше нуля
-			}													//первое больше - вычитаем из превого второе и задаем знак +
-			else {												//и наоборот второе больше первого - вычитаем из второго первое и знак -
+			}                                                    //первое больше - вычитаем из превого второе и задаем знак +
+			else {                                                //и наоборот второе больше первого - вычитаем из второго первое и знак -
 				*sign3 = 1;
 				SUB_NN_N((*sum2), (*sum1), arr2, arr1, D, sum3, &arr3);
 			}
@@ -827,9 +849,9 @@ void SUB_ZZ_Z(int *sum1, int *arr1, int *sign1, int *sum2, int *arr2, int *sign2
 			if (COM_NN_D((*sum2), (*sum1), arr2, arr1) == 2 || COM_NN_D((*sum2), (*sum1), arr2, arr1) == 0) {
 				*sign3 = 0;
 				SUB_NN_N((*sum2), (*sum1), arr2, arr1, D, sum3, &arr3);
-			}													//первое и второе меньше нуля
-			else {												//первое больше - вычитаем из превого второе и задаем знак -
-				*sign3 = 1;										//и наоборот второе больше первого - вычитаем из второго первое и знак +
+			}                                                    //первое и второе меньше нуля
+			else {                                                //первое больше - вычитаем из превого второе и задаем знак -
+				*sign3 = 1;                                        //и наоборот второе больше первого - вычитаем из второго первое и знак +
 				SUB_NN_N((*sum1), (*sum2), arr1, arr2, D, sum3, &arr3);
 			}
 
@@ -1128,7 +1150,7 @@ void ADD_QQ_Q(int markFirst, int markSecond, int sizeNumer1, int sizeDeno1, int 
 }
 
 
-void naturalNum() // Модуль, в котором идут операции с натуральными числами 
+void naturalNum() // Модуль, в котором идут операции с натуральными числами
 {
 	string module[14] = { "1. Сравнение натуральных чисел ",
 		"2. Проверка на ноль",
@@ -1184,7 +1206,7 @@ void naturalNum() // Модуль, в котором идут операции с натуральными числами
 			puts("\nДля возврата в прошлое меню нажмите Esc.");
 		}
 
-		tmp = _getch();
+		tmp = __getch();
 		switch (tmp)
 		{
 		case 72:
@@ -1197,6 +1219,51 @@ void naturalNum() // Модуль, в котором идут операции с натуральными числами
 				index++;
 			break;
 
+#ifdef __APPLE__
+		case 49:
+			index = 0;
+			break;
+		case 50:
+			index = 1;
+			break;
+		case 51:
+			index = 2;
+			break;
+		case 52:
+			index = 3;
+			break;
+		case 53:
+			index = 4;
+			break;
+		case 54:
+			index = 5;
+			break;
+		case 55:
+			index = 6;
+			break;
+		case 56:
+			index = 7;
+			break;
+		case 57:
+			index = 8;
+			break;
+		case 65:
+			index = 9;
+			break;
+		case 66:
+			index = 10;
+			break;
+		case 67:
+			index = 11;
+			break;
+		case 68:
+			index = 12;
+			break;
+		case 69:
+			index = 13;
+			break;
+		case 'f':
+#endif
 		case 13:
 			prevIndex = -1;
 
@@ -1322,7 +1389,7 @@ void naturalNum() // Модуль, в котором идут операции с натуральными числами
 				inputNumber(sign, n1, A1);
 
 				printf("Введите цифру: ");
-				scanf_s("%d", &dig);
+				_scanf("%d", &dig);
 
 				MUL_ND_N(n1, dig, A1, &n3, &answer);
 				printf("Ответ: ");
@@ -1527,7 +1594,11 @@ void naturalNum() // Модуль, в котором идут операции с натуральными числами
 			}
 			break;
 		}
-	} while (tmp != 27);
+#ifdef __APPLE__
+	} while (tmp != 'q');
+#else
+} while (tmp != 27);
+#endif
 }
 
 void totalNum() // Модуль, в котором идёт работа с целыми числами
@@ -1574,7 +1645,7 @@ void totalNum() // Модуль, в котором идёт работа с целыми числами
 
 			puts("\nДля возврата в прошлое меню нажмите Esc.");
 		}
-		tmp = _getch();
+		tmp = __getch();
 		switch (tmp)
 		{
 		case 72:
@@ -1587,6 +1658,39 @@ void totalNum() // Модуль, в котором идёт работа с целыми числами
 				index++;
 			break;
 
+#ifdef __APPLE__
+		case 49:
+			index = 0;
+			break;
+		case 50:
+			index = 1;
+			break;
+		case 51:
+			index = 2;
+			break;
+		case 52:
+			index = 3;
+			break;
+		case 53:
+			index = 4;
+			break;
+		case 54:
+			index = 5;
+			break;
+		case 55:
+			index = 6;
+			break;
+		case 56:
+			index = 7;
+			break;
+		case 57:
+			index = 8;
+			break;
+		case 65:
+			index = 9;
+			break;
+		case 'f':
+#endif
 		case 13:
 			prevIndex = -1;
 
@@ -1835,7 +1939,11 @@ void totalNum() // Модуль, в котором идёт работа с целыми числами
 			}
 			break;
 		}
-	} while (tmp != 27);
+#ifdef __APPLE__
+	} while (tmp != 'q');
+#else
+} while (tmp != 27);
+#endif
 }
 
 void fractionNum() // Модуль, в котором идёт работа с дробями
@@ -1877,7 +1985,7 @@ void fractionNum() // Модуль, в котором идёт работа с дробями
 			puts("\nДля возврата в прошлое меню нажмите Esc.");
 		}
 
-		tmp = _getch();
+		tmp = __getch();
 		switch (tmp)
 		{
 		case 72:
@@ -1890,6 +1998,33 @@ void fractionNum() // Модуль, в котором идёт работа с дробями
 				index++;
 			break;
 
+#ifdef __APPLE__
+		case 49:
+			index = 0;
+			break;
+		case 50:
+			index = 1;
+			break;
+		case 51:
+			index = 2;
+			break;
+		case 52:
+			index = 3;
+			break;
+		case 53:
+			index = 4;
+			break;
+		case 54:
+			index = 5;
+			break;
+		case 55:
+			index = 6;
+			break;
+		case 56:
+			index = 87;
+			break;
+		case 'f':
+#endif
 		case 13:
 			prevIndex = -1;
 
@@ -1928,7 +2063,7 @@ void fractionNum() // Модуль, в котором идёт работа с дробями
 				break;
 
 			case 1:
-				// Рустам Аминов, группа 7307	
+				// Рустам Аминов, группа 7307
 				puts("Проверка на целое, если рациональное число является целым, то «да», иначе «нет»");
 				printf("Введите числитель: ");
 				inputNumber(b1, n, A);
@@ -2122,7 +2257,11 @@ void fractionNum() // Модуль, в котором идёт работа с дробями
 			}
 			break;
 		}
-	} while (tmp != 27);
+#ifdef __APPLE__
+	} while (tmp != 'q');
+#else
+} while (tmp != 27);
+#endif
 
 }
 
@@ -2170,7 +2309,7 @@ void polyNum() // Модуль, в котором идёт работа с многочленами
 			puts("\nДля возврата в прошлое меню нажмите Esc.");
 		}
 
-		tmp = _getch();
+		tmp = __getch();
 		switch (tmp)
 		{
 		case 72:
@@ -2183,6 +2322,48 @@ void polyNum() // Модуль, в котором идёт работа с многочленами
 				index++;
 			break;
 
+#ifdef __APPLE__
+		case 49:
+			index = 0;
+			break;
+		case 50:
+			index = 1;
+			break;
+		case 51:
+			index = 2;
+			break;
+		case 52:
+			index = 3;
+			break;
+		case 53:
+			index = 4;
+			break;
+		case 54:
+			index = 5;
+			break;
+		case 55:
+			index = 6;
+			break;
+		case 56:
+			index = 7;
+			break;
+		case 57:
+			index = 8;
+			break;
+		case 65:
+			index = 9;
+			break;
+		case 66:
+			index = 10;
+			break;
+		case 67:
+			index = 11;
+			break;
+		case 68:
+			index = 12;
+			break;
+		case 'f':
+#endif
 		case 13:
 			prevIndex = -1;
 
@@ -2239,7 +2420,7 @@ void polyNum() // Модуль, в котором идёт работа с многочленами
 			case 11:
 				// Алина Белоусова, группа 7307
 				printf("Введите старшую степень многочлена: ");
-				scanf_s("%d", &m);
+				_scanf("%d", &m);
 
 				C = (int*)realloc(C, (2 * m + 2) * sizeof(int));
 
@@ -2248,16 +2429,16 @@ void polyNum() // Модуль, в котором идёт работа с многочленами
 				for (int i = 2 * m + 1; i >= 0; i = i - 2) // Ввод числителей и знаменателей первого многочлена
 				{
 					printf("Числитель: %");
-					scanf_s("%d", &C[i - 1]);
+					_scanf("%d", &C[i - 1]);
 					printf("Знаменатель: ");
 					do
 					{
-						scanf_s("%d", &C[i]);
+						_scanf("%d", &C[i]);
 						if (&C[i] == 0)
 							cout << "Число должно быть не равно нулю!";
 					} while (&C[i] == 0);
 
-					scanf_s("%d", &C[i]);
+					_scanf("%d", &C[i]);
 				}
 				DER_PP_P(m, C);
 
@@ -2270,7 +2451,11 @@ void polyNum() // Модуль, в котором идёт работа с многочленами
 			}
 			break;
 		}
-	} while (tmp != 27);
+#ifdef __APPLE__
+	} while (tmp != 'q');
+#else
+} while (tmp != 27);
+#endif
 }
 
 void modulePick() // Выбор модуля
@@ -2301,7 +2486,7 @@ void modulePick() // Выбор модуля
 
 			puts("\nДля возврата в прошлое меню нажмите Esc.");
 		}
-		tmp = _getch();
+		tmp = __getch();
 		switch (tmp)
 		{
 		case 72:
@@ -2314,6 +2499,21 @@ void modulePick() // Выбор модуля
 				index++;
 			break;
 
+#ifdef __APPLE__
+		case 49:
+			index = 0;
+			break;
+		case 50:
+			index = 1;
+			break;
+		case 51:
+			index = 2;
+			break;
+		case 52:
+			index = 3;
+			break;
+		case 'f':
+#endif
 		case 13:
 			prevIndex = -1;
 
@@ -2338,7 +2538,11 @@ void modulePick() // Выбор модуля
 			}
 			break;
 		}
-	} while (tmp != 27);
+#ifdef __APPLE__
+	} while (tmp != 'q');
+#else
+} while (tmp != 27);
+#endif
 }
 
 void devTeam() // Команда разработчиков
@@ -2359,7 +2563,11 @@ void devTeam() // Команда разработчиков
 		"Для возврата в прошлое меню нажмите Esc.");
 	do
 	{
-	} while (_getch() != 27);
+#ifdef __APPLE__
+	} while (__getch() != 'q');
+#else
+} while (__getch() != 27);
+#endif
 }
 
 void fixJournal() // Журнал всех исправлений
@@ -2496,7 +2704,11 @@ void fixJournal() // Журнал всех исправлений
 		"Для возврата в прошлое меню нажмите Esc.");
 	do
 	{
-	} while (_getch() != 27);
+#ifdef __APPLE__
+	} while (__getch() != 'q');
+#else
+} while (__getch() != 27);
+#endif
 }
 
 void help() // Помощь
@@ -2507,7 +2719,11 @@ void help() // Помощь
 		"Для возврата в прошлое меню нажмите Esc.");
 	do
 	{
-	} while (_getch() != 27);
+#ifdef __APPLE__
+	} while (__getch() != 'q');
+#else
+} while (__getch() != 27);
+#endif
 }
 
 void menuPick() // Выбор меню
@@ -2543,7 +2759,7 @@ void menuPick() // Выбор меню
 			puts("\nДля выхода из программы нажмите Esc.");
 		}
 
-		tmp = _getch();
+		tmp = __getch();
 		switch (tmp)
 		{
 		case 72:
@@ -2556,6 +2772,21 @@ void menuPick() // Выбор меню
 				index++;
 			break;
 
+#ifdef __APPLE__
+		case 49:
+			index = 0;
+			break;
+		case 50:
+			index = 1;
+			break;
+		case 51:
+			index = 2;
+			break;
+		case 52:
+			index = 3;
+			break;
+		case 'f':
+#endif
 		case 13:
 			prevIndex = -1;
 
@@ -2579,7 +2810,11 @@ void menuPick() // Выбор меню
 			}
 			break;
 		}
-	} while (tmp != 27);
+#ifdef __APPLE__
+	} while (tmp != 'q');
+#else
+} while (tmp != 27);
+#endif
 }
 
 int main() // Основная функция
