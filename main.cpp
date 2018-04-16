@@ -16,17 +16,13 @@ int __getch()
 #ifdef __APPLE__
     return getchar();
 #else
-    #ifdef _MSC_VER_
-        return _getch();
-    #else
-        return getch();
-    #endif
+    return _getch();
 #endif
 }
 
 template<typename... Args> int _scanf(Args... TArgs)
 {
-#ifdef _MSC_VER_
+#ifndef __APPLE__
     return scanf_s(TArgs...);
 #else
     return scanf(TArgs...);
@@ -2925,6 +2921,323 @@ void menuPick() // Выбор меню
 #endif
 }
 
+int power10(int power)
+{
+    int result = 1;
+    for (int i = 0; i < power; i++)
+        result *= 10;
+    return result;
+}
+
+char *InputString()
+{
+    char *str{ nullptr };
+    char wc;
+    int strLen{ 0 };
+    
+    bool MemError{ false };
+    
+    while ((wc = getchar()) != '\n' && !MemError)
+    {
+        char *temp = (char*)realloc(str, (strLen + 2) * sizeof(char));
+        if (temp != nullptr)
+        {
+            str = temp;
+            str[strLen] = wc;
+            strLen++;
+        }
+        else
+        {
+            free(str); str = nullptr;
+            MemError = true;
+            cout << "Ошибка выделения памяти. Попробуйте снова." << endl;
+        }
+    }
+    
+    if (!MemError)
+    {
+        if (strLen == 0)
+        {
+            str = (char*)malloc(sizeof(char));
+        }
+        str[strLen] = '\0';
+    }
+    
+    fflush(stdin); cin.clear();
+    return str;
+}
+
+//Допускается:
+//  1/2, 6, -12 - всё это свободные члены
+//  x, -x, 1/2x, -1/2x, 6x, -12x^2, 51x10, 10*x^12 - всё это ввод коэффициентов и степеней икс
+//Не допускается:
+//  x+12x^2-12 - ввод коэффициентов без пробелов между ними
+//Предполагается:
+//  int m = -1;
+//  int *C = NULL;
+void InputPolynom(int &m, int *&C)
+{
+    char *parse = InputString();
+    
+    int lettersCounted = 0;
+    bool signInput = false;
+    for (int i = 0; (i != 0 && parse[i-1] != '\0') || (i == 0 && parse[0] != '\0'); i++) {
+        if (parse[i] == 'x')
+        {
+            int toSkipAhead = 1;
+            int xDegree = -1;
+            //DEGREE ANALTSIS
+            int j = i;
+            for (; parse[j] != ' ' && parse[j] != '\0'; j++) {
+                //parse dergee from [i + j]
+            } toSkipAhead = j - i - 1;
+            if (j == i || (j-1 == i && (parse[j] == '\0')))
+            {
+                //degree = 1
+                xDegree = 1;
+                if (m < 1) {
+                    C = (int*)realloc(C, sizeof(int)*4);
+                    for (int k = (m+1)*2; k < (xDegree+1)*2; k++)
+                        C[k] = NULL;
+                    m = 1;
+                }
+            }
+            else
+            {
+                bool atLeastOne = false;
+                int resultInt = 0;
+                int numberDegree = 0;
+                for (int k = j-1; k > i; k--)
+                {
+                    if (parse[k] >= 48 && parse[k] <= 57)
+                    {
+                        atLeastOne = true;
+                        resultInt += (parse[k] - 48) * power10(numberDegree);
+                        numberDegree++;
+                    }
+                }
+                if (!atLeastOne) {atLeastOne = true; resultInt = 1;}
+                if (atLeastOne)
+                {
+                    xDegree = resultInt;
+                    if (xDegree > m)
+                    {
+                        C = (int*)realloc(C, sizeof(int)*(xDegree+1)*2);
+                        for (int k = (m+1)*2; k < (xDegree+1)*2; k++)
+                            C[k] = NULL;
+                        m = xDegree;
+                    }
+                    C[xDegree*2] = NULL;
+                    C[xDegree*2 + 1] = NULL;
+                }
+            }
+            //DEGREE ANALYSIS
+            
+            //COEFF ANALYSIS
+            int slashPosition = -1;
+            j = i;
+            for (; parse[j] != ' ' && j >= 0 && parse[j] != '+' && parse[j] != '-'; j--) {
+                //parse coeff from [j-i to j] [...]x
+                if (parse[j] == '\\' || parse[j] == '/') {slashPosition = j;}
+            }
+            if (j == i || (j+1 == i))
+            {
+                //coeff = 1
+                C[xDegree*2] = !signInput ? 1 : -1;
+                C[xDegree*2 + 1] = 1;
+            }
+            else
+            {
+                if (slashPosition != -1)
+                {
+                    //coeff = x/y
+                    bool atLeastOne = false;
+                    int resultInt = 0;
+                    int numberDegree = 0;
+                    for (int k = i-1; k > slashPosition; k--)
+                    {
+                        if (parse[k] == 43)
+                            signInput = false;
+                        if (parse[k] == 45)
+                            signInput = true;
+                        
+                        if (parse[k] >= 48 && parse[k] <= 57)
+                        {
+                            atLeastOne = true;
+                            resultInt += (parse[k] - 48) * power10(numberDegree);
+                            numberDegree++;
+                        }
+                    }
+                    
+                    if (atLeastOne)
+                    {
+                        C[xDegree*2] = 1;
+                        C[xDegree*2 + 1] = resultInt;
+                        
+                        atLeastOne = false;
+                        resultInt = 0;
+                        numberDegree = 0;
+                        for (int k = slashPosition-1; k > j; k--)
+                        {
+                            if (parse[k] == 43)
+                                signInput = false;
+                            if (parse[k] == 45)
+                                signInput = true;
+                            
+                            if (parse[k] >= 48 && parse[k] <= 57)
+                            {
+                                atLeastOne = true;
+                                resultInt += (parse[k] - 48) * power10(numberDegree);
+                                numberDegree++;
+                            }
+                        }
+                        
+                        if (atLeastOne)
+                        {
+                            if (signInput)
+                                resultInt = -resultInt;
+                            C[xDegree*2] = resultInt;
+                        }
+                    }
+                }
+                else
+                {
+                    //coeff = x
+                    bool atLeastOne = false;
+                    int resultInt = 0;
+                    int numberDegree = 0;
+                    for (int k = i-1; k > j; k--)
+                    {
+                        if (parse[k] == 43)
+                            signInput = false;
+                        if (parse[k] == 45)
+                            signInput = true;
+                        
+                        if (parse[k] >= 48 && parse[k] <= 57)
+                        {
+                            atLeastOne = true;
+                            resultInt += (parse[k] - 48) * power10(numberDegree);
+                            numberDegree++;
+                        }
+                    }
+                    
+                    if (atLeastOne)
+                    {
+                        if (signInput)
+                            resultInt = -resultInt;
+                        C[xDegree*2] = resultInt;
+                        C[xDegree*2 + 1] = 1;
+                    }
+                }
+            }
+            //COEFF ANALYSIS
+            
+            //now skipping the whole a/b*x^d fragment
+            lettersCounted = 0;
+            i += toSkipAhead;
+        }
+        else if ((parse[i] == ' ' || parse[i] == '\0') && lettersCounted > 0)
+        {
+            //we've done parsing a word
+            //it's a number
+            
+            int slashPosition = -1;
+            int j = i-1;
+            for (; parse[j] != ' ' && j >= 0 && parse[j] != '+' && parse[j] != '-'; j--) {
+                //parse coeff from [j-i to j] [...]x
+                if (parse[j] == '\\' || parse[j] == '/') {slashPosition = j;}
+            }
+            if (slashPosition != -1)
+            {
+                bool atLeastOne = false;
+                int resultInt = 0;
+                int numberDegree = 0;
+                for (int k = i-1; k > slashPosition; k--)
+                {
+                    if (parse[k] == 43)
+                        signInput = false;
+                    if (parse[k] == 45)
+                        signInput = true;
+                    
+                    if (parse[k] >= 48 && parse[k] <= 57)
+                    {
+                        atLeastOne = true;
+                        resultInt += (parse[k] - 48) * power10(numberDegree);
+                        numberDegree++;
+                    }
+                }
+                
+                if (atLeastOne)
+                {
+                    if (m < 0) {m = 0;
+                        C = (int*)malloc(sizeof(int)*2);}
+                    C[0] = 1;
+                    C[1] = resultInt;
+                    
+                    atLeastOne = false;
+                    resultInt = 0;
+                    numberDegree = 0;
+                    for (int k = slashPosition-1; k > j; k--)
+                    {
+                        if (parse[k] == 43)
+                            signInput = false;
+                        if (parse[k] == 45)
+                            signInput = true;
+                        
+                        if (parse[k] >= 48 && parse[k] <= 57)
+                        {
+                            atLeastOne = true;
+                            resultInt += (parse[k] - 48) * power10(numberDegree);
+                            numberDegree++;
+                        }
+                    }
+                    
+                    if (atLeastOne)
+                    {
+                        if (signInput)
+                            resultInt = -resultInt;
+                        C[0] = resultInt;
+                    }
+                }
+            }
+            else
+            {
+                bool atLeastOne = false;
+                int resultInt = 0;
+                int numberDegree = 0;
+                for (int k = i-1; k > j; k--)
+                {
+                    if (parse[k] >= 48 && parse[k] <= 57)
+                    {
+                        atLeastOne = true;
+                        resultInt += (parse[k] - 48) * power10(numberDegree);
+                        numberDegree++;
+                    }
+                }
+                
+                if (atLeastOne)
+                {
+                    if (m < 0) {m = 0;
+                        C = (int*)malloc(sizeof(int)*2);}
+                    C[0] = resultInt;
+                    C[1] = 1;
+                }
+            }
+            lettersCounted = 0;
+        }
+        else
+        {
+            if (parse[i] == 43)
+                signInput = false;
+            if (parse[i] == 45)
+                signInput = true;
+            
+            //we're parsing a word
+            lettersCounted++;
+        }
+    }
+}
+
 int main() // Основная функция
 {
     setlocale(LC_ALL, "RUS"); // Подключение русской локализации
@@ -2936,24 +3249,20 @@ int main() // Основная функция
      cout << (int)b << "\n";
      } while ((char)b != 'j'); */
     
-    /*cout << "Введите 50/4x4" << endl;
-    std::string parse;
-    cin >> parse;
-    for (int i = 0; parse[i] != '\0'; i++) {
-        if (parse[i] == 'x') {
-            for (int j = i; parse[j] != ' ' && j >= 0; j--) {
-                //parse coeff from [j-i to j] [...]x
-                if (j == i)
-                {
-                    //coeff = 1
-                }
-                else
-                {
-                    
-                }
-            }
-        }
-    }*/
+    /*int m = -1;
+    int *C = NULL;
+    
+    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+    
+    InputPolynom(m, C);
+    
+    cout << endl << "Вывод: " << endl;
+    cout << "Степень многочлена: " << m << endl;
+    cout << "Коэффициенты: ";
+    for (int i = 0; i < (m+1)*2; i+=2) {
+        cout << C[i] << "\\" << C[i+1] << " ";
+    }
+    cout << endl << endl;*/
     
     menuPick();
     
