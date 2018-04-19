@@ -1027,21 +1027,21 @@ void DIV_ZZ_Z(int markFirst, int markSecond, int sizeFirst, int sizeSecond, int 
     sizeResult = 0;
     result = NULL;
     
-    cout << "sizeFirst: " << sizeFirst << " first: ";
+    /*cout << "sizeFirst: " << sizeFirst << " first: ";
      for (int i = 0; i < sizeFirst; i++)
      cout << first[i];
      cout << endl;
      cout << "sizeSecond: " << sizeSecond << " second: ";
      for (int i = 0; i < sizeSecond; i++)
      cout << second[i];
-     cout << endl;
+     cout << endl;*/
     
     DIV_NN_N(sizeFirst, first, sizeSecond, second, sizeResult, result);
     
-    cout << "nResult: " << sizeResult << " result: ";
+    /*cout << "nResult: " << sizeResult << " result: ";
     for (int i = 0; i < sizeResult; i++)
         cout << result[i];
-    cout << endl;
+    cout << endl;*/
 }
 
 void MOD_ZZ_Z(int markFirst, int markSecond, int sizeFirst, int sizeSecond, int * first, int * second, int & markResult, int & sizeResult, int * &result)
@@ -1156,17 +1156,29 @@ void ADD_QQ_Q(int markFirstNumer, int markFirstDeno, int markSecondNumer, int ma
     
     MUL_ZZ_Z(sizeDeno1, sizeDeno2, deno1, deno2, markFirstDeno, markSecondDeno, sizeResultDeno, denoResult, markResultDeno);
 
-    
-    RED_QQ_Q(markResultNumer, markResultDeno, sizeResultNumer, sizeResultDeno, numerResult, denoResult, markTmpFirst, sizeTmpFirst, sizeTmpSecond, tmpFirst, tmpSecond);
-    markResultNumer = markTmpFirst;
-    sizeResultNumer = sizeTmpFirst;
-    sizeResultDeno = sizeTmpSecond;
-    numerResult = (int*)malloc(sizeof(int)*sizeResultNumer);
-    denoResult = (int*)malloc(sizeof(int)*sizeResultDeno);
-    for (int i = 0; i < sizeResultNumer; i++)
-        numerResult[i] = tmpFirst[i];
-    for (int i = 0; i < sizeResultDeno; i++)
-        denoResult[i] = tmpSecond[i];
+    if (sizeResultNumer == 0 || sizeResultDeno == 0)
+    {
+        markResultNumer = 0;
+        sizeResultNumer = 1;
+        sizeResultDeno = 1;
+        numerResult = (int*)malloc(sizeof(int)*sizeResultNumer);
+        denoResult = (int*)malloc(sizeof(int)*sizeResultDeno);
+        numerResult[0] = 0;
+        denoResult[0] = 1;
+    }
+    else
+    {
+        RED_QQ_Q(markResultNumer, markResultDeno, sizeResultNumer, sizeResultDeno, numerResult, denoResult, markTmpFirst, sizeTmpFirst, sizeTmpSecond, tmpFirst, tmpSecond);
+        markResultNumer = markTmpFirst;
+        sizeResultNumer = sizeTmpFirst;
+        sizeResultDeno = sizeTmpSecond;
+        numerResult = (int*)malloc(sizeof(int)*sizeResultNumer);
+        denoResult = (int*)malloc(sizeof(int)*sizeResultDeno);
+        for (int i = 0; i < sizeResultNumer; i++)
+            numerResult[i] = tmpFirst[i];
+        for (int i = 0; i < sizeResultDeno; i++)
+            denoResult[i] = tmpSecond[i];
+    }
 }
 
 void SUB_QQ_Q (int markFirstNumer, int markFirstDeno, int markSecondNumer, int markSecondDeno,
@@ -1180,11 +1192,7 @@ void SUB_QQ_Q (int markFirstNumer, int markFirstDeno, int markSecondNumer, int m
     denoResult = NULL;
     
     int * tmpFirst = NULL, sizeTmpFirst = 0, markTmpFirst = 0,
-    *tmpSecond = NULL, sizeTmpSecond = 0, markTmpSecond = 0,
-    markSkip = 0,
-    
-    sizeMultip1 = 0, sizeMultip2 = 0,
-    *multip1 = NULL, *multip2 = NULL;
+    *tmpSecond = NULL, sizeTmpSecond = 0, markTmpSecond = 0;
     
     MUL_ZZ_Z(sizeNumer1, sizeDeno2, numer1, deno2, markFirstNumer, markSecondDeno, sizeTmpFirst, tmpFirst, markTmpSecond);
     MUL_ZZ_Z(sizeNumer2, sizeDeno1, numer2, deno1, markSecondNumer, markFirstNumer, sizeTmpSecond, tmpSecond, markTmpSecond);
@@ -1193,21 +1201,1249 @@ void SUB_QQ_Q (int markFirstNumer, int markFirstDeno, int markSecondNumer, int m
     
     MUL_ZZ_Z(sizeDeno1, sizeDeno2, deno1, deno2, markFirstDeno, markSecondDeno, sizeResultDeno, denoResult, markResultDeno);
     
-    RED_QQ_Q(markResultNumer, markResultDeno, sizeResultNumer, sizeResultDeno, numerResult, denoResult, markTmpFirst, sizeTmpFirst, sizeTmpSecond, tmpFirst, tmpSecond);
-    markResultNumer = markTmpFirst;
-    sizeResultNumer = sizeTmpFirst;
-    sizeResultDeno = sizeTmpSecond;
-    numerResult = (int*)malloc(sizeof(int)*sizeResultNumer);
-    denoResult = (int*)malloc(sizeof(int)*sizeResultDeno);
-    for (int i = 0; i < sizeResultNumer; i++)
-        numerResult[i] = tmpFirst[i];
-    for (int i = 0; i < sizeResultDeno; i++)
-        denoResult[i] = tmpSecond[i];
+    if (sizeResultNumer == 0 || sizeResultDeno == 0)
+    {
+        markResultNumer = 0;
+        sizeResultNumer = 1;
+        sizeResultDeno = 1;
+        numerResult = (int*)malloc(sizeof(int)*sizeResultNumer);
+        denoResult = (int*)malloc(sizeof(int)*sizeResultDeno);
+        numerResult[0] = 0;
+        denoResult[0] = 1;
+    }
+    else
+    {
+        RED_QQ_Q(markResultNumer, markResultDeno, sizeResultNumer, sizeResultDeno, numerResult, denoResult, markTmpFirst, sizeTmpFirst, sizeTmpSecond, tmpFirst, tmpSecond);
+        markResultNumer = markTmpFirst;
+        sizeResultNumer = sizeTmpFirst;
+        sizeResultDeno = sizeTmpSecond;
+        numerResult = (int*)malloc(sizeof(int)*sizeResultNumer);
+        denoResult = (int*)malloc(sizeof(int)*sizeResultDeno);
+        for (int i = 0; i < sizeResultNumer; i++)
+            numerResult[i] = tmpFirst[i];
+        for (int i = 0; i < sizeResultDeno; i++)
+            denoResult[i] = tmpSecond[i];
+    }
 }
 
 int DEG_P_N(int &n)
 {
     return n;
+}
+
+int power10(int power)
+{
+    int result = 1;
+    for (int i = 0; i < power; i++)
+        result *= 10;
+    return result;
+}
+
+char *InputString()
+{
+    char *str{ nullptr };
+    char wc;
+    int strLen{ 0 };
+    
+    bool MemError{ false };
+    
+    while ((wc = getchar()) != '\n' && !MemError)
+    {
+        char *temp = (char*)realloc(str, (strLen + 2) * sizeof(char));
+        if (temp != nullptr)
+        {
+            str = temp;
+            str[strLen] = wc;
+            strLen++;
+        }
+        else
+        {
+            free(str); str = nullptr;
+            MemError = true;
+            cout << "Ошибка выделения памяти. Попробуйте снова." << endl;
+        }
+    }
+    
+    if (!MemError)
+    {
+        if (strLen == 0)
+        {
+            str = (char*)malloc(sizeof(char));
+        }
+        str[strLen] = '\0';
+    }
+    
+    fflush(stdin); cin.clear();
+    return str;
+}
+
+//Допускается:
+//  1/2, 6, -12 - всё это свободные члены
+//  x, -x, 1/2x, -1/2x, 6x, -12x^2, 51x10, 10*x^12 - всё это ввод коэффициентов и степеней икс
+//Не допускается:
+//  x+12x^2-12 - ввод коэффициентов без пробелов между ними
+//Предполагается:
+//  int m = -1;
+//  int *C = NULL;
+void InputPolynom(int &m, int *&C)
+{
+    char *parse = InputString();
+    
+    int lettersCounted = 0;
+    bool signInput = false;
+    for (int i = 0; (i != 0 && parse[i-1] != '\0') || (i == 0 && parse[0] != '\0'); i++) {
+        if (parse[i] == 'x')
+        {
+            int toSkipAhead = 1;
+            int xDegree = -1;
+            //DEGREE ANALTSIS
+            int j = i;
+            for (; parse[j] != ' ' && parse[j] != '\0'; j++) {
+                //parse dergee from [i + j]
+            } toSkipAhead = j - i - 1;
+            if (j == i || (j-1 == i && (parse[j] == '\0')))
+            {
+                //degree = 1
+                xDegree = 1;
+                if (m < 1) {
+                    C = (int*)realloc(C, sizeof(int)*4);
+                    for (int k = (m+1)*2; k < (xDegree+1)*2; k++)
+                        C[k] = NULL;
+                    m = 1;
+                }
+            }
+            else
+            {
+                bool atLeastOne = false;
+                int resultInt = 0;
+                int numberDegree = 0;
+                for (int k = j-1; k > i; k--)
+                {
+                    if (parse[k] >= 48 && parse[k] <= 57)
+                    {
+                        atLeastOne = true;
+                        resultInt += (parse[k] - 48) * power10(numberDegree);
+                        numberDegree++;
+                    }
+                }
+                if (!atLeastOne) {atLeastOne = true; resultInt = 1;}
+                if (atLeastOne)
+                {
+                    xDegree = resultInt;
+                    if (xDegree > m)
+                    {
+                        C = (int*)realloc(C, sizeof(int)*(xDegree+1)*2);
+                        for (int k = (m+1)*2; k < (xDegree+1)*2; k++)
+                            C[k] = NULL;
+                        m = xDegree;
+                    }
+                    C[xDegree*2] = NULL;
+                    C[xDegree*2 + 1] = NULL;
+                }
+            }
+            //DEGREE ANALYSIS
+            
+            //COEFF ANALYSIS
+            int slashPosition = -1;
+            j = i;
+            for (; parse[j] != ' ' && j >= 0 && parse[j] != '+' && parse[j] != '-'; j--) {
+                //parse coeff from [j-i to j] [...]x
+                if (parse[j] == '\\' || parse[j] == '/') {slashPosition = j;}
+            }
+            if (j == i || (j+1 == i))
+            {
+                //coeff = 1
+                C[xDegree*2] = !signInput ? 1 : -1;
+                C[xDegree*2 + 1] = 1;
+            }
+            else
+            {
+                if (slashPosition != -1)
+                {
+                    //coeff = x/y
+                    bool atLeastOne = false;
+                    int resultInt = 0;
+                    int numberDegree = 0;
+                    for (int k = i-1; k > slashPosition; k--)
+                    {
+                        if (parse[k] == 43)
+                            signInput = false;
+                        if (parse[k] == 45)
+                            signInput = true;
+                        
+                        if (parse[k] >= 48 && parse[k] <= 57)
+                        {
+                            atLeastOne = true;
+                            resultInt += (parse[k] - 48) * power10(numberDegree);
+                            numberDegree++;
+                        }
+                    }
+                    
+                    if (atLeastOne)
+                    {
+                        C[xDegree*2] = 1;
+                        C[xDegree*2 + 1] = resultInt;
+                        
+                        atLeastOne = false;
+                        resultInt = 0;
+                        numberDegree = 0;
+                        for (int k = slashPosition-1; k > j; k--)
+                        {
+                            if (parse[k] == 43)
+                                signInput = false;
+                            if (parse[k] == 45)
+                                signInput = true;
+                            
+                            if (parse[k] >= 48 && parse[k] <= 57)
+                            {
+                                atLeastOne = true;
+                                resultInt += (parse[k] - 48) * power10(numberDegree);
+                                numberDegree++;
+                            }
+                        }
+                        
+                        if (atLeastOne)
+                        {
+                            if (signInput)
+                                resultInt = -resultInt;
+                            C[xDegree*2] = resultInt;
+                        }
+                    }
+                }
+                else
+                {
+                    //coeff = x
+                    bool atLeastOne = false;
+                    int resultInt = 0;
+                    int numberDegree = 0;
+                    for (int k = i-1; k > j; k--)
+                    {
+                        if (parse[k] == 43)
+                            signInput = false;
+                        if (parse[k] == 45)
+                            signInput = true;
+                        
+                        if (parse[k] >= 48 && parse[k] <= 57)
+                        {
+                            atLeastOne = true;
+                            resultInt += (parse[k] - 48) * power10(numberDegree);
+                            numberDegree++;
+                        }
+                    }
+                    
+                    if (atLeastOne)
+                    {
+                        if (signInput)
+                            resultInt = -resultInt;
+                        C[xDegree*2] = resultInt;
+                        C[xDegree*2 + 1] = 1;
+                    }
+                }
+            }
+            //COEFF ANALYSIS
+            
+            //now skipping the whole a/b*x^d fragment
+            lettersCounted = 0;
+            i += toSkipAhead;
+        }
+        else if ((parse[i] == ' ' || parse[i] == '\0') && lettersCounted > 0)
+        {
+            //we've done parsing a word
+            //it's a number
+            
+            int slashPosition = -1;
+            int j = i-1;
+            for (; parse[j] != ' ' && j >= 0 && parse[j] != '+' && parse[j] != '-'; j--) {
+                //parse coeff from [j-i to j] [...]x
+                if (parse[j] == '\\' || parse[j] == '/') {slashPosition = j;}
+            }
+            if (slashPosition != -1)
+            {
+                bool atLeastOne = false;
+                int resultInt = 0;
+                int numberDegree = 0;
+                for (int k = i-1; k > slashPosition; k--)
+                {
+                    if (parse[k] == 43)
+                        signInput = false;
+                    if (parse[k] == 45)
+                        signInput = true;
+                    
+                    if (parse[k] >= 48 && parse[k] <= 57)
+                    {
+                        atLeastOne = true;
+                        resultInt += (parse[k] - 48) * power10(numberDegree);
+                        numberDegree++;
+                    }
+                }
+                
+                if (atLeastOne)
+                {
+                    if (m < 0) {m = 0;
+                        C = (int*)malloc(sizeof(int)*2);}
+                    C[0] = 1;
+                    C[1] = resultInt;
+                    
+                    atLeastOne = false;
+                    resultInt = 0;
+                    numberDegree = 0;
+                    for (int k = slashPosition-1; k > j; k--)
+                    {
+                        if (parse[k] == 43)
+                            signInput = false;
+                        if (parse[k] == 45)
+                            signInput = true;
+                        
+                        if (parse[k] >= 48 && parse[k] <= 57)
+                        {
+                            atLeastOne = true;
+                            resultInt += (parse[k] - 48) * power10(numberDegree);
+                            numberDegree++;
+                        }
+                    }
+                    
+                    if (atLeastOne)
+                    {
+                        if (signInput)
+                            resultInt = -resultInt;
+                        C[0] = resultInt;
+                    }
+                }
+            }
+            else
+            {
+                bool atLeastOne = false;
+                int resultInt = 0;
+                int numberDegree = 0;
+                for (int k = i-1; k > j; k--)
+                {
+                    if (parse[k] >= 48 && parse[k] <= 57)
+                    {
+                        atLeastOne = true;
+                        resultInt += (parse[k] - 48) * power10(numberDegree);
+                        numberDegree++;
+                    }
+                }
+                
+                if (atLeastOne)
+                {
+                    if (m < 0) {m = 0;
+                        C = (int*)malloc(sizeof(int)*2);}
+                    C[0] = resultInt;
+                    C[1] = 1;
+                }
+            }
+            lettersCounted = 0;
+        }
+        else
+        {
+            if (parse[i] == 43)
+                signInput = false;
+            if (parse[i] == 45)
+                signInput = true;
+            
+            //we're parsing a word
+            lettersCounted++;
+        }
+    }
+}
+
+//Вывод в формате -12x^6 + 3/2x^3 + -x^1 + 1/2
+//  (+ всегда между слагаемыми, а если слагамаемое отрицательно, то будет "... + -12/5x^2 + ..."
+void PrintPolynom(int m, int *C)
+{
+    if (m >= 0)
+    {
+        for (int i = m*2; i >= 0; i -= 2)
+        {
+            if (C[i] != 0)
+            {
+                if (i != m*2)
+                    cout << " + ";
+                
+                if (i != 0)
+                {
+                    if (C[i + 1] == 1 && C[i] == 1)
+                        cout << "x^" << i/2;
+                    else if (C[i + 1] == 1 && C[i] == -1)
+                        cout << "-x^" << i/2;
+                    else
+                    {
+                        if (C[i+1] != 0 && C[i+1] != 1)
+                            cout << C[i] << "/" << C[i+1] << "x^" << i/2;
+                        else
+                            cout << C[i] << "x^" << i/2;
+                    }
+                }
+                else
+                {
+                    if (C[i+1] != 0 && C[i+1] != 1)
+                        cout << C[i] << "/" << C[i+1];
+                    else
+                        cout << C[i];
+                }
+            }
+        }
+        cout << endl;
+    }
+    else
+    {
+        cout << "Данный многочлен не существует, поэтому вывод на экран коэффициентов невозможен." << endl;
+    }
+}
+
+//Вывод в формате -12x^6 + 3/2x^3 - x^1 + 1/2
+//  (+ меняется на -, если слагамаемое отрицательно
+void PrintPolynomSigned(int m, int *C)
+{
+    if (m >= 0)
+    {
+        for (int i = m*2; i >= 0; i -= 2)
+        {
+            if (C[i] != 0)
+            {
+                if (i != m*2)
+                {
+                    if (C[i] > 0)
+                        cout << " + ";
+                    else
+                        cout << " - ";
+                }
+                if (i == m*2)
+                {
+                    if (C[i] < 0)
+                        cout << "-";
+                }
+                
+                if (i != 0)
+                {
+                    if (C[i + 1] == 1 && C[i] == 1)
+                        cout << "x^" << i/2;
+                    else if (C[i + 1] == 1 && C[i] == -1)
+                        cout << "x^" << i/2;
+                    else
+                    {
+                        int Temp = C[i];
+                        if (Temp < 0) Temp = -Temp;
+                        if (C[i+1] != 0 && C[i+1] != 1)
+                        {
+                            cout << Temp << "/" << C[i+1] << "x^" << i/2;
+                        }
+                        else
+                            cout << Temp << "x^" << i/2;
+                    }
+                }
+                else
+                {
+                    int Temp = C[i];
+                    if (Temp < 0) Temp = -Temp;
+                    if (C[i+1] != 0 && C[i+1] != 1)
+                        cout << Temp << "/" << C[i+1];
+                    else
+                        cout << Temp;
+                }
+            }
+        }
+        cout << endl;
+    }
+    else
+    {
+        cout << "Данный многочлен не существует, поэтому вывод на экран коэффициентов невозможен." << endl;
+    }
+}
+
+struct Q
+{
+    int sign = 0;
+    
+    int nNom = -1;
+    int *ANom = NULL;
+    
+    int nDeno = -1;
+    int *ADeno = NULL;
+};
+
+//Допускается:
+//  1/2, 6, -12 - всё это свободные члены
+//  x, -x, 1/2x, -1/2x, 6x, -12x^2, 51x10, 10*x^12 - всё это ввод коэффициентов и степеней икс
+//Не допускается:
+//  x+12x^2-12 - ввод коэффициентов без пробелов между ними
+//Предполагается:
+//  int m = -1;
+//  int *C = NULL;
+void InputPolynom(int &m, Q *&C)
+{
+    char *parse = InputString();
+    
+    int lettersCounted = 0;
+    bool signInput = false;
+    for (int i = 0; (i != 0 && parse[i-1] != '\0') || (i == 0 && parse[0] != '\0'); i++) {
+        if (parse[i] == 'x')
+        {
+            int toSkipAhead = 1;
+            int xDegree = -1;
+            //DEGREE ANALTSIS
+            int j = i;
+            for (; parse[j] != ' ' && parse[j] != '\0'; j++) {
+                //parse dergee from [i + j]
+            } toSkipAhead = j - i - 1;
+            if (j == i || (j-1 == i && (parse[j] == '\0')))
+            {
+                //degree = 1
+                xDegree = 1;
+                if (m < 1) {
+                    C = (Q*)realloc(C, sizeof(Q)*2);
+                    //for (int k = (m+1)*2; k < (xDegree+1)*2; k++)
+                    //    C[k] = NULL;
+                    for (int k = m+1; k < (xDegree+1); k++)
+                    {
+                        C[k].nNom = 0;
+                        C[k].ANom = (int*)malloc(sizeof(int));
+                        C[k].ANom[0] = 0;
+                        
+                        C[k].nDeno = 0;
+                        C[k].ADeno = (int*)malloc(sizeof(int));
+                        C[k].ADeno[0] = 0;
+                    }
+                    m = 1;
+                }
+            }
+            else
+            {
+                bool atLeastOne = false;
+                int resultInt = 0;
+                int numberDegree = 0;
+                for (int k = j-1; k > i; k--)
+                {
+                    if (parse[k] >= 48 && parse[k] <= 57)
+                    {
+                        atLeastOne = true;
+                        resultInt += (parse[k] - 48) * power10(numberDegree);
+                        numberDegree++;
+                    }
+                }
+                if (!atLeastOne) {atLeastOne = true; resultInt = 1;}
+                if (atLeastOne)
+                {
+                    xDegree = resultInt;
+                    if (xDegree > m)
+                    {
+                        C = (Q*)realloc(C, sizeof(Q)*(xDegree+1));
+                        //for (int k = (m+1)*2; k < (xDegree+1)*2; k++)
+                        //    C[k] = NULL;
+                        for (int k = (m+1); k < (xDegree+1); k++)
+                        {
+                            C[k].nNom = 0;
+                            C[k].ANom = (int*)malloc(sizeof(int));
+                            C[k].ANom[0] = 0;
+                            
+                            C[k].nDeno = 0;
+                            C[k].ADeno = (int*)malloc(sizeof(int));
+                            C[k].ADeno[0] = 0;
+                        }
+                        m = xDegree;
+                    }
+                    //C[xDegree*2] = NULL;
+                    //C[xDegree*2 + 1] = NULL;
+                    if (C[xDegree].nNom != 0)
+                    {
+                        C[xDegree].nNom = 0;
+                        C[xDegree].ANom = (int*)malloc(sizeof(int));
+                        C[xDegree].ANom[0] = 0;
+                    }
+                    if (C[xDegree].nDeno != 0)
+                    {
+                        C[xDegree].nDeno = 0;
+                        C[xDegree].ADeno = (int*)malloc(sizeof(int));
+                        C[xDegree].ADeno[0] = 0;
+                    }
+                }
+            }
+            //DEGREE ANALYSIS
+            
+            //COEFF ANALYSIS
+            int slashPosition = -1;
+            j = i;
+            for (; parse[j] != ' ' && j >= 0 && parse[j] != '+' && parse[j] != '-'; j--) {
+                //parse coeff from [j-i to j] [...]x
+                if (parse[j] == '\\' || parse[j] == '/') {slashPosition = j;}
+            }
+            if (j == i || (j+1 == i))
+            {
+                //coeff = 1
+                //C[xDegree*2] = !signInput ? 1 : -1;
+                //C[xDegree*2 + 1] = 1;
+                
+                C[xDegree].sign = !signInput ? 0 : 1;
+                
+                C[xDegree].nNom = 0;
+                if (C[xDegree].ANom == NULL)
+                    C[xDegree].ANom = (int*)malloc(sizeof(int));
+                C[xDegree].ANom[0] = 1;
+                C[xDegree].nDeno = 0;
+                if (C[xDegree].ADeno == NULL)
+                    C[xDegree].ADeno = (int*)malloc(sizeof(int));
+                C[xDegree].ADeno[0] = 1;
+            }
+            else
+            {
+                if (slashPosition != -1)
+                {
+                    //coeff = x/y
+                    bool atLeastOne = false;
+                    int numberDegree = 0;
+                    int *resultA = NULL;
+                    for (int k = slashPosition+1; k < i; k++)
+                    {
+                        if (parse[k] == 43)
+                            signInput = false;
+                        if (parse[k] == 45)
+                            signInput = true;
+                        
+                        if (parse[k] >= 48 && parse[k] <= 57)
+                        {
+                            atLeastOne = true;
+                            //resultInt += (parse[k] - 48) * power10(numberDegree);
+                            resultA = (int*)realloc(resultA, sizeof(int)*(numberDegree+1));
+                            resultA[numberDegree] = parse[k] - 48;
+                            numberDegree++;
+                        }
+                    }
+                    
+                    if (atLeastOne)
+                    {
+                        if (!(numberDegree == 1 && resultA[0] == 0))
+                        {
+                            //C[xDegree*2] = 1;
+                            //C[xDegree*2 + 1] = resultInt;
+                            C[xDegree].nDeno = numberDegree-1;
+                            C[xDegree].ADeno = resultA;
+                            
+                            atLeastOne = false;
+                            numberDegree = 0;
+                            resultA = NULL;
+                            for (int k = j+1; k < slashPosition; k++)
+                            {
+                                if (parse[k] == 43)
+                                    signInput = false;
+                                if (parse[k] == 45)
+                                    signInput = true;
+                                
+                                if (parse[k] >= 48 && parse[k] <= 57)
+                                {
+                                    atLeastOne = true;
+                                    //resultInt += (parse[k] - 48) * power10(numberDegree);
+                                    resultA = (int*)realloc(resultA, sizeof(int)*(numberDegree+1));
+                                    resultA[numberDegree] = parse[k] - 48;
+                                    numberDegree++;
+                                }
+                            }
+                            
+                            if (atLeastOne)
+                            {
+                                //if (signInput)
+                                //    resultInt = -resultInt;
+                                //C[xDegree*2] = resultInt;
+                                C[xDegree].nNom = numberDegree-1;
+                                C[xDegree].ANom = resultA;
+                                C[xDegree].sign = signInput ? 1 : 0;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    //coeff = x
+                    bool atLeastOne = false;
+                    int numberDegree = 0;
+                    int *resultA = NULL;
+                    for (int k = j+1; k < i; k++)
+                    {
+                        if (parse[k] == 43)
+                            signInput = false;
+                        if (parse[k] == 45)
+                            signInput = true;
+                        
+                        if (parse[k] >= 48 && parse[k] <= 57)
+                        {
+                            atLeastOne = true;
+                            //resultInt += (parse[k] - 48) * power10(numberDegree);
+                            resultA = (int*)realloc(resultA, sizeof(int)*(numberDegree+1));
+                            resultA[numberDegree] = parse[k] - 48;
+                            numberDegree++;
+                        }
+                    }
+                    
+                    if (atLeastOne)
+                    {
+                        //if (signInput)
+                        //    resultInt = -resultInt;
+                        //C[xDegree*2] = resultInt;
+                        //C[xDegree*2 + 1] = 1;
+                        C[xDegree].nNom = numberDegree-1;
+                        C[xDegree].ANom = resultA;
+                        C[xDegree].sign = signInput ? 1 : 0;
+                        C[xDegree].nDeno = 0;
+                        C[xDegree].ADeno[0] = 1;
+                    }
+                }
+            }
+            //COEFF ANALYSIS
+            
+            //now skipping the whole a/b*x^d fragment
+            lettersCounted = 0;
+            i += toSkipAhead;
+        }
+        else if ((parse[i] == ' ' || parse[i] == '\0') && lettersCounted > 0)
+        {
+            //we've done parsing a word
+            //it's a number
+            
+            int slashPosition = -1;
+            int j = i-1;
+            for (; parse[j] != ' ' && j >= 0 && parse[j] != '+' && parse[j] != '-'; j--) {
+                //parse coeff from [j-i to j] [...]x
+                if (parse[j] == '\\' || parse[j] == '/') {slashPosition = j;}
+            }
+            if (slashPosition != -1)
+            {
+                bool atLeastOne = false;
+                int numberDegree = 0;
+                int *resultA = NULL;
+                for (int k = slashPosition + 1; k < i; k++)
+                {
+                    if (parse[k] == 43)
+                        signInput = false;
+                    if (parse[k] == 45)
+                        signInput = true;
+                    
+                    if (parse[k] >= 48 && parse[k] <= 57)
+                    {
+                        atLeastOne = true;
+                        //resultInt += (parse[k] - 48) * power10(numberDegree);
+                        resultA = (int*)realloc(resultA, sizeof(int)*(numberDegree+1));
+                        resultA[numberDegree] = parse[k] - 48;
+                        numberDegree++;
+                    }
+                }
+                
+                if (atLeastOne)
+                {
+                    if (!(numberDegree == 1 && resultA[0] == 0))
+                    {
+                        if (m < 0) {m = 0;
+                            C = (Q*)malloc(sizeof(Q));}
+                        C[0].nNom = 0;
+                        C[0].ANom = (int*)malloc(sizeof(int));
+                        C[0].ANom[0] = 1;
+                        C[0].nDeno = numberDegree - 1;
+                        C[0].ADeno = resultA;
+                        //C[0] = 1;
+                        //C[1] = resultInt;
+                        
+                        atLeastOne = false;
+                        resultA = NULL;
+                        numberDegree = 0;
+                        for (int k = j + 1; k < slashPosition; k++)
+                        {
+                            if (parse[k] == 43)
+                                signInput = false;
+                            if (parse[k] == 45)
+                                signInput = true;
+                            
+                            if (parse[k] >= 48 && parse[k] <= 57)
+                            {
+                                atLeastOne = true;
+                                //resultInt += (parse[k] - 48) * power10(numberDegree);
+                                resultA = (int*)realloc(resultA, sizeof(int)*(numberDegree+1));
+                                resultA[numberDegree] = parse[k] - 48;
+                                numberDegree++;
+                            }
+                        }
+                        
+                        if (atLeastOne)
+                        {
+                            //if (signInput)
+                            //    resultInt = -resultInt;
+                            //C[0] = resultInt;
+                            C[0].sign = signInput ? 1 : 0;
+                            if (C[0].ANom != NULL)
+                                free(C[0].ANom);
+                            C[0].nNom = numberDegree - 1;
+                            C[0].ANom = resultA;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                bool atLeastOne = false;
+                int *resultA = NULL;
+                int numberDegree = 0;
+                for (int k = j+1; k < i; k++)
+                {
+                    if (parse[k] >= 48 && parse[k] <= 57)
+                    {
+                        atLeastOne = true;
+                        //resultInt += (parse[k] - 48) * power10(numberDegree);
+                        resultA = (int*)realloc(resultA, sizeof(int)*(numberDegree+1));
+                        resultA[numberDegree] = parse[k] - 48;
+                        numberDegree++;
+                    }
+                }
+                
+                if (atLeastOne)
+                {
+                    if (m < 0) {m = 0;
+                        C = (Q*)malloc(sizeof(Q));}
+                    //if (m < 0) {m = 0;
+                    //    C = (int*)malloc(sizeof(int)*2);}
+                    //C[0] = resultInt;
+                    //C[1] = 1;
+                    C[0].sign = signInput ? 1 : 0;
+                    //if (C[0].ANom != NULL)
+                    //    free(C[0].ANom);
+                    C[0].nNom = numberDegree - 1;
+                    C[0].ANom = resultA;
+                    C[0].nDeno = 0;
+                    C[0].ADeno = (int*)malloc(sizeof(int));
+                    C[0].ADeno[0] = 1;
+                }
+            }
+            lettersCounted = 0;
+        }
+        else
+        {
+            if (parse[i] == 43)
+                signInput = false;
+            if (parse[i] == 45)
+                signInput = true;
+            
+            //we're parsing a word
+            lettersCounted++;
+        }
+    }
+}
+
+//Вывод в формате -12x^6 + 3/2x^3 + -x^1 + 1/2
+//  (+ всегда между слагаемыми, а если слагамаемое отрицательно, то будет "... + -12/5x^2 + ..."
+void PrintPolynom(int m, Q *C)
+{
+    if (m >= 0)
+    {
+        for (int i = m; i >= 0; i --)
+        {
+            //cout << "_____ " << i << " ____ " << C[i].nNom << " ____ " << C[i].ANom[0] << endl;
+            if (!(C[i].nNom == 0 && C[i].ANom[0] == 0))
+            {
+                if (i != m)
+                    cout << " + ";
+                
+                if (i != 0)
+                {
+                    if (C[i].nNom == 0 && C[i].ANom[0] == 1 && C[i].nDeno == 0 && C[i].ADeno[0] == 1 && C[i].sign == 0)
+                    {
+                        if (i != 1)
+                            cout << "x^" << i;
+                        else
+                            cout << "x";
+                    }
+                    else if (C[i].nNom == 0 && C[i].ANom[0] == 1 && C[i].nDeno == 0 && C[i].ADeno[0] == 1 && C[i].sign == 1)
+                    {
+                        if (i != 1)
+                            cout << "-x^" << i;
+                        else
+                            cout << "-x";
+                    }
+                    else
+                    {
+                        if (!(C[i].nDeno == 0 && (C[i].ADeno[0] == 1 || C[i].ADeno[0] == 0)))
+                        {
+                            if (C[i].sign == 1)
+                                cout << "-";
+                            for (int j = 0; j <= C[i].nNom; j++) {cout << C[i].ANom[j];}
+                            cout << "/";
+                            for (int j = 0; j <= C[i].nDeno; j++) {cout << C[i].ADeno[j];}
+                            if (i != 1)
+                                cout << "x^" << i;
+                            else
+                                cout << "x";
+                        }
+                        else
+                        {
+                            if (C[i].sign == 1)
+                                cout << "-";
+                            for (int j = 0; j <= C[i].nNom; j++) {cout << C[i].ANom[j];}
+                            if (i != 1)
+                                cout << "x^" << i;
+                            else
+                                cout << "x";
+                        }
+                    }
+                }
+                else
+                {
+                    if (!(C[i].nDeno == 0 && (C[i].ADeno[0] == 1 || C[i].ADeno[0] == 0)))
+                    {
+                        if (C[i].sign == 1)
+                            cout << "-";
+                        for (int j = 0; j <= C[i].nNom; j++) {cout << C[i].ANom[j];}
+                        cout << "/";
+                        for (int j = 0; j <= C[i].nDeno; j++) {cout << C[i].ADeno[j];}
+                    }
+                    else
+                    {
+                        if (C[i].sign == 1)
+                            cout << "-";
+                        for (int j = 0; j <= C[i].nNom; j++) {cout << C[i].ANom[j];}
+                    }
+                }
+            }
+        }
+        cout << endl;
+    }
+    else
+    {
+        cout << "Данный многочлен не существует, поэтому вывод на экран коэффициентов невозможен." << endl;
+    }
+}
+
+void ADD_PP_P(int m1, Q *C1, int m2, Q *C2, int &mRes, Q *&CRes)
+{
+    mRes = -1;
+    CRes = NULL;
+    for (int i = 0; i <= m1 && i <= m2; i++)
+    {
+        if (C1[i].nNom >= 0 || C2[i].nNom >= 0)
+        {
+            if (!((C1[i].nNom == 0 && C1[i].ANom[0] == 0) || (C2[i].nNom == 0 && C2[i].ANom[0] == 0)))
+            {
+                int markResultNumer, markResultDeno, sizeResultNumer, sizeResultDeno, *numerResult, *denoResult;
+                
+                ADD_QQ_Q(C1[i].sign, 0, C2[i].sign, 0, C1[i].nNom+1, C1[i].nDeno+1, C1[i].ANom, C1[i].ADeno, C2[i].nNom+1, C2[i].nDeno+1, C2[i].ANom, C2[i].ADeno,
+                         markResultNumer, markResultDeno, sizeResultNumer, sizeResultDeno, numerResult, denoResult);
+                
+                /*puts("Получилась следующая дробь:");
+                 cout << "Числитель:   ";
+                 if (markResultNumer)
+                 cout << "-";
+                 
+                 for (int i = 0; i < sizeResultNumer; i++)
+                 cout << *(numerResult + i);
+                 
+                 cout << "\nЗнаменатель: ";
+                 for (int i = 0; i < sizeResultDeno; i++)
+                 cout << *(denoResult + i);
+                 cout << endl;*/
+                
+                if (!(sizeResultNumer == 1 && numerResult[0] == 0))
+                {
+                    if (sizeResultNumer <= 0 || sizeResultDeno <= 0)
+                    {
+                        CRes = (Q*)realloc(CRes, sizeof(Q)*(i+1));
+                        for (int j = mRes+1; j <= i; j++)
+                        {
+                            CRes[j].sign = 0;
+                            CRes[j].nNom = 0;
+                            CRes[j].ANom = (int*)malloc(sizeof(int));
+                            CRes[j].ANom[0] = 0;
+                            
+                            CRes[j].nDeno = 0;
+                            CRes[j].ADeno = (int*)malloc(sizeof(int));
+                            CRes[j].ADeno[0] = 0;
+                        }
+                        mRes = i;
+                    }
+                    else
+                    {
+                        CRes = (Q*)realloc(CRes, sizeof(Q)*(i+1));
+                        for (int j = mRes+1; j < i; j++)
+                        {
+                            CRes[j].sign = 0;
+                            CRes[j].nNom = 0;
+                            CRes[j].ANom = (int*)malloc(sizeof(int));
+                            CRes[j].ANom[0] = 0;
+                            
+                            CRes[j].nDeno = 0;
+                            CRes[j].ADeno = (int*)malloc(sizeof(int));
+                            CRes[j].ADeno[0] = 0;
+                        }
+                        mRes = i;
+                        
+                        CRes[mRes].sign = markResultNumer;
+                        CRes[mRes].nNom = sizeResultNumer-1;
+                        CRes[mRes].ANom = numerResult;
+                        CRes[mRes].nDeno = sizeResultDeno-1;
+                        CRes[mRes].ADeno = denoResult;
+                    }
+                }
+                else
+                {
+                    CRes = (Q*)realloc(CRes, sizeof(Q)*(i+1));
+                    for (int j = mRes+1; j <= i; j++)
+                    {
+                        CRes[j].sign = 0;
+                        CRes[j].nNom = 0;
+                        CRes[j].ANom = (int*)malloc(sizeof(int));
+                        CRes[j].ANom[0] = 0;
+                        
+                        CRes[j].nDeno = 0;
+                        CRes[j].ADeno = (int*)malloc(sizeof(int));
+                        CRes[j].ADeno[0] = 0;
+                    }
+                    mRes = i;
+                }
+            }
+            else
+            {
+                if (C1[i].nNom == 0 && C1[i].ANom[0] == 0)
+                {
+                    mRes = i;
+                    CRes = (Q*)realloc(CRes, sizeof(Q)*(mRes+1));
+                    
+                    CRes[mRes].sign = C2[mRes].sign;
+                    CRes[mRes].nNom = C2[mRes].nNom;
+                    CRes[mRes].ANom = (int*)malloc(sizeof(int)*CRes[mRes].nNom);
+                    memcpy(CRes[mRes].ANom, C2[mRes].ANom, sizeof(int)*CRes[mRes].nNom);
+                    
+                    CRes[mRes].nDeno = C2[mRes].nDeno;
+                    CRes[mRes].ADeno = (int*)malloc(sizeof(int)*CRes[mRes].nDeno);
+                    memcpy(CRes[mRes].ADeno, C2[mRes].ADeno, sizeof(int)*CRes[mRes].nDeno);
+                }
+                else
+                {
+                    mRes = i;
+                    CRes = (Q*)realloc(CRes, sizeof(Q)*(mRes+1));
+                    
+                    CRes[mRes].sign = C1[mRes].sign;
+                    CRes[mRes].nNom = C1[mRes].nNom;
+                    CRes[mRes].ANom = (int*)malloc(sizeof(int)*CRes[mRes].nNom);
+                    memcpy(CRes[mRes].ANom, C1[mRes].ANom, sizeof(int)*CRes[mRes].nNom);
+                    
+                    CRes[mRes].nDeno = C1[mRes].nDeno;
+                    CRes[mRes].ADeno = (int*)malloc(sizeof(int)*CRes[mRes].nDeno);
+                    memcpy(CRes[mRes].ADeno, C1[mRes].ADeno, sizeof(int)*CRes[mRes].nDeno);
+                }
+            }
+        }
+    }
+    
+    if (m1 > m2)
+    {
+        for (int i = m2+1; i <= m1; i++)
+        {
+            if (C1[i].nNom >= 0)
+            {
+                mRes = i;
+                CRes = (Q*)realloc(CRes, sizeof(Q)*(mRes+1));
+                
+                CRes[mRes].sign = C1[mRes].sign;
+                CRes[mRes].nNom = C1[mRes].nNom;
+                CRes[mRes].ANom = C1[mRes].ANom;
+                CRes[mRes].nDeno = C1[mRes].nDeno;
+                CRes[mRes].ADeno = C1[mRes].ADeno;
+            }
+        }
+    }
+    else if (m2 > m1)
+    {
+        for (int i = m1+1; i <= m2; i++)
+        {
+            if (C2[i].nNom >= 0)
+            {
+                mRes = i;
+                CRes = (Q*)realloc(CRes, sizeof(Q)*(mRes+1));
+                
+                CRes[mRes].sign = C2[mRes].sign;
+                CRes[mRes].nNom = C2[mRes].nNom;
+                CRes[mRes].ANom = C2[mRes].ANom;
+                CRes[mRes].nDeno = C2[mRes].nDeno;
+                CRes[mRes].ADeno = C2[mRes].ADeno;
+            }
+        }
+    }
+    
+    //Удаляем нули из высших степеней, понижая её
+    bool triggered = false;
+    for (int i = mRes; i >= 0 && !triggered; i--)
+    {
+        triggered = !(CRes[i].nNom == 0 && CRes[i].ANom[0] == 0);
+        if (!triggered)
+        {
+            free(CRes[i].ANom);
+            free(CRes[i].ADeno);
+            mRes--;
+        }
+    }
+}
+
+void SUB_PP_P(int m1, Q *C1, int m2, Q *C2, int &mRes, Q *&CRes)
+{
+    mRes = -1;
+    CRes = NULL;
+    for (int i = 0; i <= m1 && i <= m2; i++)
+    {
+        if (C1[i].nNom >= 0 || C2[i].nNom >= 0)
+        {
+            if (!((C1[i].nNom == 0 && C1[i].ANom[0] == 0) || (C2[i].nNom == 0 && C2[i].ANom[0] == 0)))
+            {
+                int markResultNumer, markResultDeno, sizeResultNumer, sizeResultDeno, *numerResult, *denoResult;
+                
+                SUB_QQ_Q(C1[i].sign, 0, C2[i].sign, 0, C1[i].nNom+1, C1[i].nDeno+1, C1[i].ANom, C1[i].ADeno, C2[i].nNom+1, C2[i].nDeno+1, C2[i].ANom, C2[i].ADeno,
+                         markResultNumer, markResultDeno, sizeResultNumer, sizeResultDeno, numerResult, denoResult);
+                
+                /*puts("Получилась следующая дробь:");
+                 cout << "Числитель:   ";
+                 if (markResultNumer)
+                 cout << "-";
+                 
+                 for (int i = 0; i < sizeResultNumer; i++)
+                 cout << *(numerResult + i);
+                 
+                 cout << "\nЗнаменатель: ";
+                 for (int i = 0; i < sizeResultDeno; i++)
+                 cout << *(denoResult + i);
+                 cout << endl;*/
+                
+                if (!(sizeResultNumer == 1 && numerResult[0] == 0))
+                {
+                    if (sizeResultNumer <= 0 || sizeResultDeno <= 0)
+                    {
+                        CRes = (Q*)realloc(CRes, sizeof(Q)*(i+1));
+                        for (int j = mRes+1; j <= i; j++)
+                        {
+                            CRes[j].sign = 0;
+                            CRes[j].nNom = 0;
+                            CRes[j].ANom = (int*)malloc(sizeof(int));
+                            CRes[j].ANom[0] = 0;
+                            
+                            CRes[j].nDeno = 0;
+                            CRes[j].ADeno = (int*)malloc(sizeof(int));
+                            CRes[j].ADeno[0] = 0;
+                        }
+                        mRes = i;
+                    }
+                    else
+                    {
+                        CRes = (Q*)realloc(CRes, sizeof(Q)*(i+1));
+                        for (int j = mRes+1; j < i; j++)
+                        {
+                            CRes[j].sign = 0;
+                            CRes[j].nNom = 0;
+                            CRes[j].ANom = (int*)malloc(sizeof(int));
+                            CRes[j].ANom[0] = 0;
+                            
+                            CRes[j].nDeno = 0;
+                            CRes[j].ADeno = (int*)malloc(sizeof(int));
+                            CRes[j].ADeno[0] = 0;
+                        }
+                        mRes = i;
+                        
+                        CRes[mRes].sign = markResultNumer;
+                        CRes[mRes].nNom = sizeResultNumer-1;
+                        CRes[mRes].ANom = numerResult;
+                        CRes[mRes].nDeno = sizeResultDeno-1;
+                        CRes[mRes].ADeno = denoResult;
+                    }
+                }
+                else
+                {
+                    CRes = (Q*)realloc(CRes, sizeof(Q)*(i+1));
+                    for (int j = mRes+1; j <= i; j++)
+                    {
+                        CRes[j].sign = 0;
+                        CRes[j].nNom = 0;
+                        CRes[j].ANom = (int*)malloc(sizeof(int));
+                        CRes[j].ANom[0] = 0;
+                        
+                        CRes[j].nDeno = 0;
+                        CRes[j].ADeno = (int*)malloc(sizeof(int));
+                        CRes[j].ADeno[0] = 0;
+                    }
+                    mRes = i;
+                }
+            }
+            else
+            {
+                if (C1[i].nNom == 0 && C1[i].ANom[0] == 0)
+                {
+                    mRes = i;
+                    CRes = (Q*)realloc(CRes, sizeof(Q)*(mRes+1));
+                    
+                    CRes[mRes].sign = C2[mRes].sign;
+                    CRes[mRes].nNom = C2[mRes].nNom;
+                    CRes[mRes].ANom = (int*)malloc(sizeof(int)*CRes[mRes].nNom);
+                    memcpy(CRes[mRes].ANom, C2[mRes].ANom, sizeof(int)*CRes[mRes].nNom);
+                    
+                    CRes[mRes].nDeno = C2[mRes].nDeno;
+                    CRes[mRes].ADeno = (int*)malloc(sizeof(int)*CRes[mRes].nDeno);
+                    memcpy(CRes[mRes].ADeno, C2[mRes].ADeno, sizeof(int)*CRes[mRes].nDeno);
+                }
+                else
+                {
+                    mRes = i;
+                    CRes = (Q*)realloc(CRes, sizeof(Q)*(mRes+1));
+                    
+                    CRes[mRes].sign = C1[mRes].sign;
+                    CRes[mRes].nNom = C1[mRes].nNom;
+                    CRes[mRes].ANom = (int*)malloc(sizeof(int)*CRes[mRes].nNom);
+                    memcpy(CRes[mRes].ANom, C1[mRes].ANom, sizeof(int)*CRes[mRes].nNom);
+                    
+                    CRes[mRes].nDeno = C1[mRes].nDeno;
+                    CRes[mRes].ADeno = (int*)malloc(sizeof(int)*CRes[mRes].nDeno);
+                    memcpy(CRes[mRes].ADeno, C1[mRes].ADeno, sizeof(int)*CRes[mRes].nDeno);
+                }
+            }
+        }
+    }
+    
+    if (m1 > m2)
+    {
+        for (int i = m2+1; i <= m1; i++)
+        {
+            if (C1[i].nNom >= 0)
+            {
+                mRes = i;
+                CRes = (Q*)realloc(CRes, sizeof(Q)*(mRes+1));
+                
+                CRes[mRes].sign = C1[mRes].sign;
+                CRes[mRes].nNom = C1[mRes].nNom;
+                CRes[mRes].ANom = C1[mRes].ANom;
+                CRes[mRes].nDeno = C1[mRes].nDeno;
+                CRes[mRes].ADeno = C1[mRes].ADeno;
+            }
+        }
+    }
+    else if (m2 > m1)
+    {
+        for (int i = m1+1; i <= m2; i++)
+        {
+            if (C2[i].nNom >= 0)
+            {
+                mRes = i;
+                CRes = (Q*)realloc(CRes, sizeof(Q)*(mRes+1));
+                
+                CRes[mRes].sign = C2[mRes].sign;
+                CRes[mRes].nNom = C2[mRes].nNom;
+                CRes[mRes].ANom = C2[mRes].ANom;
+                CRes[mRes].nDeno = C2[mRes].nDeno;
+                CRes[mRes].ADeno = C2[mRes].ADeno;
+            }
+        }
+    }
+    
+    //Удаляем нули из высших степеней, понижая её
+    bool triggered = false;
+    for (int i = mRes; i >= 0 && !triggered; i--)
+    {
+        triggered = !(CRes[i].nNom == 0 && CRes[i].ANom[0] == 0);
+        if (!triggered)
+        {
+            free(CRes[i].ANom);
+            free(CRes[i].ADeno);
+            mRes--;
+        }
+    }
 }
 
 void naturalNum() // Модуль, в котором идут операции с натуральными числами
@@ -2355,8 +3591,8 @@ void fractionNum() // Модуль, в котором идёт работа с �
 
 void polyNum() // Модуль, в котором идёт работа с многочленами
 {
-    string module[13] = { "1*. Сложение многочленов",
-        "2*. Вычитание многочленов",
+    string module[13] = { "1. Сложение многочленов",
+        "2. Вычитание многочленов",
         "3*. Умножение многочлена на рациональное число",
         "4. Умножение многочлена на x^k",
         "5. Старший коэффициент многочлена",
@@ -2374,7 +3610,11 @@ void polyNum() // Модуль, в котором идёт работа с мн�
     
     // Переменные для case
     int m,
-    *C = NULL;
+        *C = NULL;
+    
+    int m1 = -1, m2 = -1, mRes = -1;
+    Q *C1 = NULL, *C2 = NULL, *CRes = NULL;
+    
     do
     {
         if (prevIndex != index)
@@ -2459,21 +3699,70 @@ void polyNum() // Модуль, в котором идёт работа с мн�
                 switch (index)
             {
                 case 0:
+                    cout << "Сложение многочленов." << endl << endl;
                     
+                    m1 = -1;
+                    m2 = -1;
+                    mRes = -1;
+                    C1 = NULL;
+                    C2 = NULL;
+                    CRes = NULL;
                     
+                    cin.ignore();
+                    //  5/6x^5 + 3x^4 - x + 12
+                    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+                    InputPolynom(m1, C1);
+                    cout << "   +" << endl;
+                    //  5/6x^5 - 3x^4 + x + 12
+                    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+                    InputPolynom(m2, C2);
+                    ADD_PP_P(m1, C1, m2, C2, mRes, CRes);
+                    
+                    cout << "   =" << endl;
+                    cout << "Результат: " << endl;
+                    PrintPolynom(mRes, CRes);
+                    
+                    system("pause");
                     break;
                     
                 case 1:
+                    cout << "Вычитание многочленов." << endl << endl;
+                    
+                    m1 = -1;
+                    m2 = -1;
+                    mRes = -1;
+                    C1 = NULL;
+                    C2 = NULL;
+                    CRes = NULL;
+                    
+                    cin.ignore();
+                    //  5/6x^5 + 3x^4 - x + 12
+                    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+                    InputPolynom(m1, C1);
+                    cout << "   -" << endl;
+                    //  5/6x^5 - 3x^4 + x + 12
+                    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+                    InputPolynom(m2, C2);
+                    SUB_PP_P(m1, C1, m2, C2, mRes, CRes);
+                    
+                    cout << "   =" << endl;
+                    cout << "Результат: " << endl;
+                    PrintPolynom(mRes, CRes);
+                    
+                    system("pause");
                     break;
                     
                 case 2:
+                    cout << "Умножение многочлена на рациональное число." << endl << endl;
                     break;
                     
                 case 3:
-                    // Рустам Аминов, группа 7307
+                    cout << "Умножение многочлена на x^k." << endl << endl;
                     break;
                     
                 case 4:
+                    cout << "Старший коэффициент многочлена." << endl << endl;
+                    
                     // Дмитрий Богряков, группа 7307
                     puts("Старший коэффициент многочлена");
                     cout << "Введите степень многочлена: ";
@@ -2490,6 +3779,8 @@ void polyNum() // Модуль, в котором идёт работа с мн�
                     break;
                     
                 case 5:
+                    cout << "Степень многочлена." << endl << endl;
+                    
                     puts("Степень многочлена");
                     
                     cout << "Введите степень многочлена: ";
@@ -2507,21 +3798,28 @@ void polyNum() // Модуль, в котором идёт работа с мн�
                     break;
                     
                 case 6:
+                    cout << "Вынесение из многочлена НОК знаменателей коэффициентов и НОД числителей." << endl << endl;
                     break;
                     
                 case 7:
+                    cout << "Вынесение из многочлена НОК знаменателей коэффициентов и НОД числителей." << endl << endl;
                     break;
                     
                 case 8:
+                    cout << "Частное от деления многочлена на многочлен при делении с остатком." << endl << endl;
                     break;
                     
                 case 9:
+                    cout << "Остаток от деления многочлена на многочлен при делении с остатком." << endl << endl;
                     break;
                     
                 case 10:
+                    cout << "НОД многочленов." << endl << endl;
                     break;
                     
                 case 11:
+                    cout << "Производная многочлена." << endl << endl;
+                    
                     // Алина Белоусова, группа 7307
                     printf("Введите старшую степень многочлена: ");
                     _scanf("%d", &m);
@@ -2551,6 +3849,7 @@ void polyNum() // Модуль, в котором идёт работа с мн�
                     break;
                     
                 case 12:
+                    cout << "Преобразование многочлена — кратные корни в простые." << endl << endl;
                     break;
             }
                 break;
@@ -2921,323 +4220,6 @@ void menuPick() // Выбор меню
 #endif
 }
 
-int power10(int power)
-{
-    int result = 1;
-    for (int i = 0; i < power; i++)
-        result *= 10;
-    return result;
-}
-
-char *InputString()
-{
-    char *str{ nullptr };
-    char wc;
-    int strLen{ 0 };
-    
-    bool MemError{ false };
-    
-    while ((wc = getchar()) != '\n' && !MemError)
-    {
-        char *temp = (char*)realloc(str, (strLen + 2) * sizeof(char));
-        if (temp != nullptr)
-        {
-            str = temp;
-            str[strLen] = wc;
-            strLen++;
-        }
-        else
-        {
-            free(str); str = nullptr;
-            MemError = true;
-            cout << "Ошибка выделения памяти. Попробуйте снова." << endl;
-        }
-    }
-    
-    if (!MemError)
-    {
-        if (strLen == 0)
-        {
-            str = (char*)malloc(sizeof(char));
-        }
-        str[strLen] = '\0';
-    }
-    
-    fflush(stdin); cin.clear();
-    return str;
-}
-
-//Допускается:
-//  1/2, 6, -12 - всё это свободные члены
-//  x, -x, 1/2x, -1/2x, 6x, -12x^2, 51x10, 10*x^12 - всё это ввод коэффициентов и степеней икс
-//Не допускается:
-//  x+12x^2-12 - ввод коэффициентов без пробелов между ними
-//Предполагается:
-//  int m = -1;
-//  int *C = NULL;
-void InputPolynom(int &m, int *&C)
-{
-    char *parse = InputString();
-    
-    int lettersCounted = 0;
-    bool signInput = false;
-    for (int i = 0; (i != 0 && parse[i-1] != '\0') || (i == 0 && parse[0] != '\0'); i++) {
-        if (parse[i] == 'x')
-        {
-            int toSkipAhead = 1;
-            int xDegree = -1;
-            //DEGREE ANALTSIS
-            int j = i;
-            for (; parse[j] != ' ' && parse[j] != '\0'; j++) {
-                //parse dergee from [i + j]
-            } toSkipAhead = j - i - 1;
-            if (j == i || (j-1 == i && (parse[j] == '\0')))
-            {
-                //degree = 1
-                xDegree = 1;
-                if (m < 1) {
-                    C = (int*)realloc(C, sizeof(int)*4);
-                    for (int k = (m+1)*2; k < (xDegree+1)*2; k++)
-                        C[k] = NULL;
-                    m = 1;
-                }
-            }
-            else
-            {
-                bool atLeastOne = false;
-                int resultInt = 0;
-                int numberDegree = 0;
-                for (int k = j-1; k > i; k--)
-                {
-                    if (parse[k] >= 48 && parse[k] <= 57)
-                    {
-                        atLeastOne = true;
-                        resultInt += (parse[k] - 48) * power10(numberDegree);
-                        numberDegree++;
-                    }
-                }
-                if (!atLeastOne) {atLeastOne = true; resultInt = 1;}
-                if (atLeastOne)
-                {
-                    xDegree = resultInt;
-                    if (xDegree > m)
-                    {
-                        C = (int*)realloc(C, sizeof(int)*(xDegree+1)*2);
-                        for (int k = (m+1)*2; k < (xDegree+1)*2; k++)
-                            C[k] = NULL;
-                        m = xDegree;
-                    }
-                    C[xDegree*2] = NULL;
-                    C[xDegree*2 + 1] = NULL;
-                }
-            }
-            //DEGREE ANALYSIS
-            
-            //COEFF ANALYSIS
-            int slashPosition = -1;
-            j = i;
-            for (; parse[j] != ' ' && j >= 0 && parse[j] != '+' && parse[j] != '-'; j--) {
-                //parse coeff from [j-i to j] [...]x
-                if (parse[j] == '\\' || parse[j] == '/') {slashPosition = j;}
-            }
-            if (j == i || (j+1 == i))
-            {
-                //coeff = 1
-                C[xDegree*2] = !signInput ? 1 : -1;
-                C[xDegree*2 + 1] = 1;
-            }
-            else
-            {
-                if (slashPosition != -1)
-                {
-                    //coeff = x/y
-                    bool atLeastOne = false;
-                    int resultInt = 0;
-                    int numberDegree = 0;
-                    for (int k = i-1; k > slashPosition; k--)
-                    {
-                        if (parse[k] == 43)
-                            signInput = false;
-                        if (parse[k] == 45)
-                            signInput = true;
-                        
-                        if (parse[k] >= 48 && parse[k] <= 57)
-                        {
-                            atLeastOne = true;
-                            resultInt += (parse[k] - 48) * power10(numberDegree);
-                            numberDegree++;
-                        }
-                    }
-                    
-                    if (atLeastOne)
-                    {
-                        C[xDegree*2] = 1;
-                        C[xDegree*2 + 1] = resultInt;
-                        
-                        atLeastOne = false;
-                        resultInt = 0;
-                        numberDegree = 0;
-                        for (int k = slashPosition-1; k > j; k--)
-                        {
-                            if (parse[k] == 43)
-                                signInput = false;
-                            if (parse[k] == 45)
-                                signInput = true;
-                            
-                            if (parse[k] >= 48 && parse[k] <= 57)
-                            {
-                                atLeastOne = true;
-                                resultInt += (parse[k] - 48) * power10(numberDegree);
-                                numberDegree++;
-                            }
-                        }
-                        
-                        if (atLeastOne)
-                        {
-                            if (signInput)
-                                resultInt = -resultInt;
-                            C[xDegree*2] = resultInt;
-                        }
-                    }
-                }
-                else
-                {
-                    //coeff = x
-                    bool atLeastOne = false;
-                    int resultInt = 0;
-                    int numberDegree = 0;
-                    for (int k = i-1; k > j; k--)
-                    {
-                        if (parse[k] == 43)
-                            signInput = false;
-                        if (parse[k] == 45)
-                            signInput = true;
-                        
-                        if (parse[k] >= 48 && parse[k] <= 57)
-                        {
-                            atLeastOne = true;
-                            resultInt += (parse[k] - 48) * power10(numberDegree);
-                            numberDegree++;
-                        }
-                    }
-                    
-                    if (atLeastOne)
-                    {
-                        if (signInput)
-                            resultInt = -resultInt;
-                        C[xDegree*2] = resultInt;
-                        C[xDegree*2 + 1] = 1;
-                    }
-                }
-            }
-            //COEFF ANALYSIS
-            
-            //now skipping the whole a/b*x^d fragment
-            lettersCounted = 0;
-            i += toSkipAhead;
-        }
-        else if ((parse[i] == ' ' || parse[i] == '\0') && lettersCounted > 0)
-        {
-            //we've done parsing a word
-            //it's a number
-            
-            int slashPosition = -1;
-            int j = i-1;
-            for (; parse[j] != ' ' && j >= 0 && parse[j] != '+' && parse[j] != '-'; j--) {
-                //parse coeff from [j-i to j] [...]x
-                if (parse[j] == '\\' || parse[j] == '/') {slashPosition = j;}
-            }
-            if (slashPosition != -1)
-            {
-                bool atLeastOne = false;
-                int resultInt = 0;
-                int numberDegree = 0;
-                for (int k = i-1; k > slashPosition; k--)
-                {
-                    if (parse[k] == 43)
-                        signInput = false;
-                    if (parse[k] == 45)
-                        signInput = true;
-                    
-                    if (parse[k] >= 48 && parse[k] <= 57)
-                    {
-                        atLeastOne = true;
-                        resultInt += (parse[k] - 48) * power10(numberDegree);
-                        numberDegree++;
-                    }
-                }
-                
-                if (atLeastOne)
-                {
-                    if (m < 0) {m = 0;
-                        C = (int*)malloc(sizeof(int)*2);}
-                    C[0] = 1;
-                    C[1] = resultInt;
-                    
-                    atLeastOne = false;
-                    resultInt = 0;
-                    numberDegree = 0;
-                    for (int k = slashPosition-1; k > j; k--)
-                    {
-                        if (parse[k] == 43)
-                            signInput = false;
-                        if (parse[k] == 45)
-                            signInput = true;
-                        
-                        if (parse[k] >= 48 && parse[k] <= 57)
-                        {
-                            atLeastOne = true;
-                            resultInt += (parse[k] - 48) * power10(numberDegree);
-                            numberDegree++;
-                        }
-                    }
-                    
-                    if (atLeastOne)
-                    {
-                        if (signInput)
-                            resultInt = -resultInt;
-                        C[0] = resultInt;
-                    }
-                }
-            }
-            else
-            {
-                bool atLeastOne = false;
-                int resultInt = 0;
-                int numberDegree = 0;
-                for (int k = i-1; k > j; k--)
-                {
-                    if (parse[k] >= 48 && parse[k] <= 57)
-                    {
-                        atLeastOne = true;
-                        resultInt += (parse[k] - 48) * power10(numberDegree);
-                        numberDegree++;
-                    }
-                }
-                
-                if (atLeastOne)
-                {
-                    if (m < 0) {m = 0;
-                        C = (int*)malloc(sizeof(int)*2);}
-                    C[0] = resultInt;
-                    C[1] = 1;
-                }
-            }
-            lettersCounted = 0;
-        }
-        else
-        {
-            if (parse[i] == 43)
-                signInput = false;
-            if (parse[i] == 45)
-                signInput = true;
-            
-            //we're parsing a word
-            lettersCounted++;
-        }
-    }
-}
-
 int main() // Основная функция
 {
     setlocale(LC_ALL, "RUS"); // Подключение русской локализации
@@ -3251,18 +4233,28 @@ int main() // Основная функция
     
     /*int m = -1;
     int *C = NULL;
-    
     cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
-    
     InputPolynom(m, C);
+    PrintPolynomSigned(m, C);*/
     
-    cout << endl << "Вывод: " << endl;
-    cout << "Степень многочлена: " << m << endl;
-    cout << "Коэффициенты: ";
-    for (int i = 0; i < (m+1)*2; i+=2) {
-        cout << C[i] << "\\" << C[i+1] << " ";
-    }
-    cout << endl << endl;*/
+    /*int m = -1;
+    Q *C = NULL;
+    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+    InputPolynom(m, C);
+    PrintPolynom(m, C);*/
+    
+    int m1 = -1, m2 = -1, mRes = -1;
+    Q *C1 = NULL, *C2 = NULL, *CRes = NULL;
+    //  5/6x^5 + 3x^4 - x + 12
+    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+    InputPolynom(m1, C1);
+    PrintPolynom(m1, C1);
+    //  5/6x^5 - 3x^4 + x + 12
+    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+    InputPolynom(m2, C2);
+    PrintPolynom(m2, C2);
+    ADD_PP_P(m1, C1, m2, C2, mRes, CRes);
+    PrintPolynom(mRes, CRes);
     
     menuPick();
     
