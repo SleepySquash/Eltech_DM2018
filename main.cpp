@@ -67,6 +67,88 @@ template<typename... Args> int _scanf(Args... TArgs)
 // II уровень - модули
 // III уровень - функции
 
+
+/*int m = -1;
+ int *C = NULL;
+ cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+ InputPolynom(m, C);
+ PrintPolynomSigned(m, C);*/
+
+
+/*int m = -1;
+ Q *C = NULL;
+ cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+ InputPolynom(m, C);
+ PrintPolynom(m, C);*/
+
+
+/*int m1 = -1, m2 = -1, mRes = -1;
+ Q *C1 = NULL, *C2 = NULL, *CRes = NULL;
+ 
+ cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+ InputPolynom(m1, C1);
+ cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+ InputPolynom(m2, C2);
+ SUB_PP_P(m1, C1, m2, C2, mRes, CRes);
+ 
+ cout << endl;
+ PrintPolynomSigned(m1, C1);
+ cout << "   +" << endl;
+ PrintPolynomSigned(m2, C2);
+ cout << "   =" << endl;
+ PrintPolynomSigned(mRes, CRes);*/
+
+
+/*int m = -1, mRes = -1;
+ Q *C = NULL, *CRes = NULL;
+ 
+ cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+ InputPolynom(m, C);
+ 
+ Q Num;
+ cout << "Введите числитель умножаемого числа: ";
+ inputNumber(Num.sign, Num.nNom, Num.ANom);
+ cout << "Введите знаменатель умножаемого числа: ";
+ int Sign = 0; notZero(Sign, Num.nDeno, Num.ADeno);
+ if ((Num.sign == 0 && Sign == 1) || (Num.sign == 1 && Sign == 0))
+ Num.sign = 1;
+ 
+ MUL_PQ_P(m, C, Num, mRes, CRes);
+ 
+ cout << endl;
+ PrintPolynomSigned(m, C);
+ cout << "   *" << endl;
+ if (Num.sign == 1) {cout << "-";}
+ for (int i = 0; i < Num.nNom; i++)
+ cout << Num.ANom[i];
+ cout << "/";
+ for (int i = 0; i < Num.nDeno; i++)
+ cout << Num.ADeno[i];
+ cout << endl << "   =" << endl;
+ PrintPolynomSigned(mRes, CRes);*/
+
+
+/*int m = -1, mRes = -1;
+ Q *C = NULL, *CRes = NULL;
+ int k = 0;
+ 
+ cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+ InputPolynom(m, C);
+ 
+ cout << "Введите степень k: ";
+ //inputDig(k);
+ cin >> k;
+ 
+ MUL_Pxk_P(m, C, k, mRes, CRes);
+ 
+ cout << endl;
+ PrintPolynomSigned(m, C);
+ cout << "   *" << endl;
+ cout << "x^" << k << endl;
+ cout << "   =" << endl;
+ PrintPolynomSigned(mRes, CRes);*/
+
+
 bool inputSymbol(int &tmp, int &sign)
 // Кезлинг Дмитрий, 7305
 {
@@ -859,30 +941,6 @@ void SUB_ZZ_Z(int *sum1, int *arr1, int *sign1, int *sum2, int *arr2, int *sign2
     }
 }
 
-void MUL_QQ_Q(int b, int n0, int n1, int *A0, int *A1, int b_1, int n0_1, int n1_1, int *A0_1, int *A1_1, int &b_result, int &n0_result, int &n1_result, int *&A0_result, int *&A1_result)
-///выполнила Волкова Анна, гр.7307
-//умножение дробей
-// первая дробь: n0 -разряд числителя, n1 - разряд знаменателя, A0 - массив числителя, A1 - массив знаменателя;
-//аналогично n0_1 и т.д. для второй дроби
-//(_result) - аналогично - результат
-{
-    MUL_ZZ_Z(n0, n0_1, A0, A0_1, b, b_1, n0_result, A0_result, b_result);
-    MUL_NN_N(n1, n1_1, A1, A1_1, n1_result, A1_result); //используем эту функцию, так как знаменатель - натуральное число
-    //можно добавить функцию сокращения дроби
-}
-
-void DIV_QQ_Q(int b, int n0, int n1, int *A0, int *A1, int b_1, int n0_1, int n1_1, int *A0_1, int *A1_1, int &b0_result, int &b1_result, int &n0_result, int &n1_result, int * &A0_result, int * &A1_result)
-///выполнила Волкова Анна, гр.7307
-//умножение дробей
-// первая дробь: n0 -разряд числителя, n1 - разряд знаменателя, A0 - массив числителя, A1 - массив знаменателя;
-//аналогично n0_1 и т.д. для второй дроби
-//(_result) - аналогично - результат
-{
-    MUL_ZZ_Z(n0, n1_1, A0, A1_1, b, 0, n0_result, A0_result, b0_result);
-    MUL_ZZ_Z(n1, n0_1, A1, A0_1, 0, b_1, n1_result, A1_result, b1_result);//используем эту функцию, так как знаменатель - натуральное число
-    //можно добавить функцию сокращения дроби
-}
-
 void DIV_NN_N(int n1, int *A1, int n2, int *A2, int &nRes, int * &ARes)
 //Исаенко Никита 7305
 {
@@ -1105,35 +1163,50 @@ void MOD_ZZ_Z(int markFirst, int markSecond, int sizeFirst, int sizeSecond, int 
 void RED_QQ_Q(int markFirst, int markSecond, int sizeNumer, int sizeDeno, int * numer, int * deno, int & markResult, int & sizeResultNumer, int & sizeResultDeno, int * & numerResult, int * &denoResult)
 // Дмитрий Кезлинг, группа 7305
 {
-    sizeResultDeno = 0;
-    sizeResultNumer = 0;
-    numerResult = NULL;
-    denoResult = NULL;
-    
-    if (markFirst == markSecond)
-        markResult = 0;
-    else
-        markResult = 1;
-    
-    int *tmpResult = NULL, sizeTmpResult = 0, markSkip = 0;
-    GCF_NN_N(sizeNumer, sizeDeno, numer, deno, sizeTmpResult, tmpResult);
-    if (!(tmpResult[0] == 1 && sizeTmpResult == 1))
+    if ((sizeNumer == 1 && numer[0] == 1) || (sizeDeno == 1 && deno[0] == 1))
     {
-        DIV_ZZ_Z(markSkip, markSkip, sizeNumer, sizeTmpResult, numer, tmpResult, markResult, sizeResultNumer, numerResult);
-        DIV_ZZ_Z(markSkip, markSkip, sizeDeno, sizeTmpResult, deno, tmpResult, markResult, sizeResultDeno, denoResult);
-    }
-    else
-    {
+        if (markFirst == markSecond)
+            markResult = 0;
+        else
+            markResult = 1;
+        
         sizeResultNumer = sizeNumer;
         sizeResultDeno = sizeDeno;
         numerResult = numer;
         denoResult = deno;
     }
-    
-    if (markFirst == markSecond)
-        markResult = 0;
     else
-        markResult = 1;
+    {
+        sizeResultDeno = 0;
+        sizeResultNumer = 0;
+        numerResult = NULL;
+        denoResult = NULL;
+        
+        if (markFirst == markSecond)
+            markResult = 0;
+        else
+            markResult = 1;
+        
+        int *tmpResult = NULL, sizeTmpResult = 0, markSkip = 0;
+        GCF_NN_N(sizeNumer, sizeDeno, numer, deno, sizeTmpResult, tmpResult);
+        if (!(tmpResult[0] == 1 && sizeTmpResult == 1))
+        {
+            DIV_ZZ_Z(markSkip, markSkip, sizeNumer, sizeTmpResult, numer, tmpResult, markResult, sizeResultNumer, numerResult);
+            DIV_ZZ_Z(markSkip, markSkip, sizeDeno, sizeTmpResult, deno, tmpResult, markResult, sizeResultDeno, denoResult);
+        }
+        else
+        {
+            sizeResultNumer = sizeNumer;
+            sizeResultDeno = sizeDeno;
+            numerResult = numer;
+            denoResult = deno;
+        }
+        
+        if (markFirst == markSecond)
+            markResult = 0;
+        else
+            markResult = 1;
+    }
 }
 
 void ADD_QQ_Q(int markFirstNumer, int markFirstDeno, int markSecondNumer, int markSecondDeno,
@@ -1149,8 +1222,8 @@ void ADD_QQ_Q(int markFirstNumer, int markFirstDeno, int markSecondNumer, int ma
     int * tmpFirst = NULL, sizeTmpFirst = 0, markTmpFirst = 0,
     *tmpSecond = NULL, sizeTmpSecond = 0, markTmpSecond = 0;
     
-    MUL_ZZ_Z(sizeNumer1, sizeDeno2, numer1, deno2, markFirstNumer, markSecondDeno, sizeTmpFirst, tmpFirst, markTmpSecond);
-    MUL_ZZ_Z(sizeNumer2, sizeDeno1, numer2, deno1, markSecondNumer, markFirstNumer, sizeTmpSecond, tmpSecond, markTmpSecond);
+    MUL_ZZ_Z(sizeNumer1, sizeDeno2, numer1, deno2, markFirstNumer, markSecondDeno, sizeTmpFirst, tmpFirst, markTmpFirst);
+    MUL_ZZ_Z(sizeNumer2, sizeDeno1, numer2, deno1, markSecondNumer, markFirstDeno, sizeTmpSecond, tmpSecond, markTmpSecond);
     
     ADD_ZZ_Z(&sizeTmpFirst, tmpFirst, &markTmpFirst, &sizeTmpSecond, tmpSecond, &markTmpSecond, &sizeResultNumer, numerResult, &markResultNumer);
     
@@ -1194,8 +1267,8 @@ void SUB_QQ_Q (int markFirstNumer, int markFirstDeno, int markSecondNumer, int m
     int * tmpFirst = NULL, sizeTmpFirst = 0, markTmpFirst = 0,
     *tmpSecond = NULL, sizeTmpSecond = 0, markTmpSecond = 0;
     
-    MUL_ZZ_Z(sizeNumer1, sizeDeno2, numer1, deno2, markFirstNumer, markSecondDeno, sizeTmpFirst, tmpFirst, markTmpSecond);
-    MUL_ZZ_Z(sizeNumer2, sizeDeno1, numer2, deno1, markSecondNumer, markFirstNumer, sizeTmpSecond, tmpSecond, markTmpSecond);
+    MUL_ZZ_Z(sizeNumer1, sizeDeno2, numer1, deno2, markFirstNumer, markSecondDeno, sizeTmpFirst, tmpFirst, markTmpFirst);
+    MUL_ZZ_Z(sizeNumer2, sizeDeno1, numer2, deno1, markSecondNumer, markFirstDeno, sizeTmpSecond, tmpSecond, markTmpSecond);
     
     SUB_ZZ_Z(&sizeTmpFirst, tmpFirst, &markTmpFirst, &sizeTmpSecond, tmpSecond, &markTmpSecond, &sizeResultNumer, numerResult, &markResultNumer);
     
@@ -1224,6 +1297,63 @@ void SUB_QQ_Q (int markFirstNumer, int markFirstDeno, int markSecondNumer, int m
         for (int i = 0; i < sizeResultDeno; i++)
             denoResult[i] = tmpSecond[i];
     }
+}
+
+void MUL_QQ_Q(int b, int n0, int n1, int *A0, int *A1, int b_1, int n0_1, int n1_1, int *A0_1, int *A1_1, int &b_result, int &n0_result, int &n1_result, int *&A0_result, int *&A1_result)
+///выполнила Волкова Анна, гр.7307
+//умножение дробей
+// первая дробь: n0 -разряд числителя, n1 - разряд знаменателя, A0 - массив числителя, A1 - массив знаменателя;
+//аналогично n0_1 и т.д. для второй дроби
+//(_result) - аналогично - результат
+{
+    if ((n0 <= 2 && A0[0] == 0) || (n0_1 <= 1 && A0_1[0] == 0))
+    {
+        n0_result = 1;
+        n1_result = 1;
+        b_result = 0;
+        A0_result = (int*)malloc(sizeof(int));
+        A0_result[0] = 0;
+        A1_result = (int*)malloc(sizeof(int));
+        A1_result[0] = 0;
+    }
+    else
+    {
+        MUL_ZZ_Z(n0, n0_1, A0, A0_1, b, b_1, n0_result, A0_result, b_result);
+        MUL_NN_N(n1, n1_1, A1, A1_1, n1_result, A1_result); //используем эту функцию, так как знаменатель - натуральное число
+        //можно добавить функцию сокращения дроби
+        
+        if (n0_result == 0 || n1_result == 0)
+        {
+            // = 0
+        }
+        else
+        {
+            int redSignResult = 0, redn1 = -1, redn2 = -1, *redNom = NULL, *redDeno = NULL;
+            RED_QQ_Q(b_result, 0, n0_result, n1_result, A0_result, A1_result, redSignResult, redn1, redn2, redNom, redDeno);
+            //cout << "b_result: " << b_result << ",  n0_result: " << n0_result << ",  n1_result: " << n1_result << ",  A0_result: " << A0_result << ",  A1_result: " << A1_result << endl;
+            //cout << "b_result: " << redSignResult << ",  n0_result: " << redn1 << ",  n1_result: " << redn2 << ",  A0_result: " << redNom << ",  A1_result: " << redDeno << endl;
+            
+            b_result = redSignResult;
+            n0_result = redn1;
+            n1_result = redn2;
+            //free(A0_result);
+            A0_result = redNom;
+            //free(A1_result);
+            A1_result = redDeno;
+        }
+    }
+}
+
+void DIV_QQ_Q(int b, int n0, int n1, int *A0, int *A1, int b_1, int n0_1, int n1_1, int *A0_1, int *A1_1, int &b0_result, int &b1_result, int &n0_result, int &n1_result, int * &A0_result, int * &A1_result)
+///выполнила Волкова Анна, гр.7307
+//умножение дробей
+// первая дробь: n0 -разряд числителя, n1 - разряд знаменателя, A0 - массив числителя, A1 - массив знаменателя;
+//аналогично n0_1 и т.д. для второй дроби
+//(_result) - аналогично - результат
+{
+    MUL_ZZ_Z(n0, n1_1, A0, A1_1, b, 0, n0_result, A0_result, b0_result);
+    MUL_ZZ_Z(n1, n0_1, A1, A0_1, 0, b_1, n1_result, A1_result, b1_result);//используем эту функцию, так как знаменатель - натуральное число
+    //можно добавить функцию сокращения дроби
 }
 
 int DEG_P_N(int &n)
@@ -1588,7 +1718,7 @@ void PrintPolynom(int m, int *C)
     }
     else
     {
-        cout << "Данный многочлен не существует, поэтому вывод на экран коэффициентов невозможен." << endl;
+        cout << "Данный многочлен равен нулю, поэтому вывод на экран коэффициентов невозможен." << endl;
     }
 }
 
@@ -1648,7 +1778,7 @@ void PrintPolynomSigned(int m, int *C)
     }
     else
     {
-        cout << "Данный многочлен не существует, поэтому вывод на экран коэффициентов невозможен." << endl;
+        cout << "Данный многочлен равен нулю, поэтому вывод на экран коэффициентов невозможен." << endl;
     }
 }
 
@@ -2104,7 +2234,84 @@ void PrintPolynom(int m, Q *C)
     }
     else
     {
-        cout << "Данный многочлен не существует, поэтому вывод на экран коэффициентов невозможен." << endl;
+        cout << "Данный многочлен равен нулю, поэтому вывод на экран коэффициентов невозможен." << endl;
+    }
+}
+
+void PrintPolynomSigned(int m, Q *C)
+{
+    if (m >= 0)
+    {
+        for (int i = m; i >= 0; i --)
+        {
+            //cout << "_____ " << i << " ____ " << C[i].nNom << " ____ " << C[i].ANom[0] << endl;
+            if (!(C[i].nNom == 0 && C[i].ANom[0] == 0))
+            {
+                if (i != m)
+                {
+                    if (C[i].sign == 0)
+                        cout << " + ";
+                    else
+                        cout << " - ";
+                }
+                if (i == m)
+                {
+                    if (C[i].sign == 1)
+                        cout << "-";
+                }
+                //3/2x^2 - 2x24 + x - 5
+                //36x^31 + 20/7x^10 + 5/2x^2 - 12x - 80
+                if (i != 0)
+                {
+                    if (C[i].nNom == 0 && C[i].ANom[0] == 1 && C[i].nDeno == 0 && C[i].ADeno[0] == 1)
+                    {
+                        if (i != 1)
+                            cout << "x^" << i;
+                        else
+                            cout << "x";
+                    }
+                    else
+                    {
+                        if (!(C[i].nDeno == 0 && (C[i].ADeno[0] == 1 || C[i].ADeno[0] == 0)))
+                        {
+                            for (int j = 0; j <= C[i].nNom; j++) {cout << C[i].ANom[j];}
+                            cout << "/";
+                            for (int j = 0; j <= C[i].nDeno; j++) {cout << C[i].ADeno[j];}
+                            if (i != 1)
+                                cout << "x^" << i;
+                            else
+                                cout << "x";
+                        }
+                        else
+                        {
+                            for (int j = 0; j <= C[i].nNom; j++) {cout << C[i].ANom[j];}
+                            if (i != 1)
+                                cout << "x^" << i;
+                            else
+                                cout << "x";
+                        }
+                    }
+                }
+                else
+                {
+                    if (!(C[i].nDeno == 0 && (C[i].ADeno[0] == 1 || C[i].ADeno[0] == 0)))
+                    {
+                        for (int j = 0; j <= C[i].nNom; j++) {cout << C[i].ANom[j];}
+                        cout << "/";
+                        for (int j = 0; j <= C[i].nDeno; j++) {cout << C[i].ADeno[j];}
+                    }
+                    else
+                    {
+                        for (int j = 0; j <= C[i].nNom; j++) {cout << C[i].ANom[j];}
+                    }
+                }
+            }
+        }
+        cout << endl;
+    }
+    else
+    {
+        cout << "Данный многочлен равен нулю, поэтому вывод на экран коэффициентов невозможен." << endl;
     }
 }
 
@@ -2114,8 +2321,8 @@ void ADD_PP_P(int m1, Q *C1, int m2, Q *C2, int &mRes, Q *&CRes)
     CRes = NULL;
     for (int i = 0; i <= m1 && i <= m2; i++)
     {
-        if (C1[i].nNom >= 0 || C2[i].nNom >= 0)
-        {
+        //if (C1[i].nNom >= 0 || C2[i].nNom >= 0)
+        //{
             if (!((C1[i].nNom == 0 && C1[i].ANom[0] == 0) || (C2[i].nNom == 0 && C2[i].ANom[0] == 0)))
             {
                 int markResultNumer, markResultDeno, sizeResultNumer, sizeResultDeno, *numerResult, *denoResult;
@@ -2125,8 +2332,6 @@ void ADD_PP_P(int m1, Q *C1, int m2, Q *C2, int &mRes, Q *&CRes)
                 
                 /*puts("Получилась следующая дробь:");
                  cout << "Числитель:   ";
-                 if (markResultNumer)
-                 cout << "-";
                  
                  for (int i = 0; i < sizeResultNumer; i++)
                  cout << *(numerResult + i);
@@ -2198,17 +2403,43 @@ void ADD_PP_P(int m1, Q *C1, int m2, Q *C2, int &mRes, Q *&CRes)
             {
                 if (C1[i].nNom == 0 && C1[i].ANom[0] == 0)
                 {
+                    /*mRes = i;
+                    CRes = (Q*)realloc(CRes, sizeof(Q)*(mRes+1));*/
+                    CRes = (Q*)realloc(CRes, sizeof(Q)*(i+1));
+                    for (int j = mRes+1; j < i; j++)
+                    {
+                        CRes[j].sign = 0;
+                        CRes[j].nNom = 0;
+                        CRes[j].ANom = (int*)malloc(sizeof(int));
+                        CRes[j].ANom[0] = 0;
+                        
+                        CRes[j].nDeno = 0;
+                        CRes[j].ADeno = (int*)malloc(sizeof(int));
+                        CRes[j].ADeno[0] = 0;
+                    }
                     mRes = i;
-                    CRes = (Q*)realloc(CRes, sizeof(Q)*(mRes+1));
                     
                     CRes[mRes].sign = C2[mRes].sign;
                     CRes[mRes].nNom = C2[mRes].nNom;
-                    CRes[mRes].ANom = (int*)malloc(sizeof(int)*CRes[mRes].nNom);
-                    memcpy(CRes[mRes].ANom, C2[mRes].ANom, sizeof(int)*CRes[mRes].nNom);
+                    CRes[mRes].ANom = (int*)malloc(sizeof(int)*(CRes[mRes].nNom+1));
+                    for (int kk = 0; kk <= CRes[mRes].nNom; kk++)
+                        CRes[mRes].ANom[kk] = C2[mRes].ANom[kk];
+                    //memcpy(CRes[mRes].ANom, C2[mRes].ANom, CRes[mRes].nNom+1);
                     
                     CRes[mRes].nDeno = C2[mRes].nDeno;
-                    CRes[mRes].ADeno = (int*)malloc(sizeof(int)*CRes[mRes].nDeno);
-                    memcpy(CRes[mRes].ADeno, C2[mRes].ADeno, sizeof(int)*CRes[mRes].nDeno);
+                    CRes[mRes].ADeno = (int*)malloc(sizeof(int)*(CRes[mRes].nDeno+1));
+                    for (int kk = 0; kk <= CRes[mRes].nDeno; kk++)
+                        CRes[mRes].ADeno[kk] = C2[mRes].ADeno[kk];
+                    //memcpy(CRes[mRes].ADeno, C2[mRes].ADeno, CRes[mRes].nDeno);
+                    
+                    /*cout << "mRes: " << mRes << " CRes[mRes].nNom: " << CRes[mRes].nNom << "CRes[mRes].ANom: ";
+                    for (int k = 0; k <= CRes[mRes].nNom; k++)
+                        cout << CRes[mRes].ANom[k];
+                    cout << endl;
+                    cout << "mRes: " << mRes << " CRes[mRes].nDeno: " << CRes[mRes].nDeno << "CRes[mRes].ADeno: ";
+                    for (int k = 0; k <= CRes[mRes].nDeno; k++)
+                        cout << CRes[mRes].ADeno[k];
+                    cout << endl;*/
                 }
                 else
                 {
@@ -2217,15 +2448,19 @@ void ADD_PP_P(int m1, Q *C1, int m2, Q *C2, int &mRes, Q *&CRes)
                     
                     CRes[mRes].sign = C1[mRes].sign;
                     CRes[mRes].nNom = C1[mRes].nNom;
-                    CRes[mRes].ANom = (int*)malloc(sizeof(int)*CRes[mRes].nNom);
-                    memcpy(CRes[mRes].ANom, C1[mRes].ANom, sizeof(int)*CRes[mRes].nNom);
+                    CRes[mRes].ANom = (int*)malloc(sizeof(int)*(CRes[mRes].nNom+1));
+                    for (int kk = 0; kk <= CRes[mRes].nNom; kk++)
+                        CRes[mRes].ANom[kk] = C1[mRes].ANom[kk];
+                    //memcpy(CRes[mRes].ANom, C1[mRes].ANom, CRes[mRes].nNom+1);
                     
                     CRes[mRes].nDeno = C1[mRes].nDeno;
-                    CRes[mRes].ADeno = (int*)malloc(sizeof(int)*CRes[mRes].nDeno);
-                    memcpy(CRes[mRes].ADeno, C1[mRes].ADeno, sizeof(int)*CRes[mRes].nDeno);
+                    CRes[mRes].ADeno = (int*)malloc(sizeof(int)*(CRes[mRes].nDeno+1));
+                    for (int kk = 0; kk <= CRes[mRes].nNom; kk++)
+                        CRes[mRes].ANom[kk] = C1[mRes].ANom[kk];
+                    //memcpy(CRes[mRes].ADeno, C1[mRes].ADeno, CRes[mRes].nDeno+1);
                 }
             }
-        }
+        //}
     }
     
     if (m1 > m2)
@@ -2283,8 +2518,8 @@ void SUB_PP_P(int m1, Q *C1, int m2, Q *C2, int &mRes, Q *&CRes)
     CRes = NULL;
     for (int i = 0; i <= m1 && i <= m2; i++)
     {
-        if (C1[i].nNom >= 0 || C2[i].nNom >= 0)
-        {
+        //if (C1[i].nNom >= 0 || C2[i].nNom >= 0)
+        //{
             if (!((C1[i].nNom == 0 && C1[i].ANom[0] == 0) || (C2[i].nNom == 0 && C2[i].ANom[0] == 0)))
             {
                 int markResultNumer, markResultDeno, sizeResultNumer, sizeResultDeno, *numerResult, *denoResult;
@@ -2367,17 +2602,36 @@ void SUB_PP_P(int m1, Q *C1, int m2, Q *C2, int &mRes, Q *&CRes)
             {
                 if (C1[i].nNom == 0 && C1[i].ANom[0] == 0)
                 {
+                    CRes = (Q*)realloc(CRes, sizeof(Q)*(i+1));
+                    for (int j = mRes+1; j < i; j++)
+                    {
+                        CRes[j].sign = 0;
+                        CRes[j].nNom = 0;
+                        CRes[j].ANom = (int*)malloc(sizeof(int));
+                        CRes[j].ANom[0] = 0;
+                        
+                        CRes[j].nDeno = 0;
+                        CRes[j].ADeno = (int*)malloc(sizeof(int));
+                        CRes[j].ADeno[0] = 0;
+                    }
                     mRes = i;
-                    CRes = (Q*)realloc(CRes, sizeof(Q)*(mRes+1));
                     
-                    CRes[mRes].sign = C2[mRes].sign;
+                    //cout << "mRes: " << mRes << "C2[mRes].sign: " << C2[mRes].sign << endl;
+                    if (C2[mRes].sign == 0)
+                        CRes[mRes].sign = 1;
+                    else
+                        CRes[mRes].sign = 0;
                     CRes[mRes].nNom = C2[mRes].nNom;
-                    CRes[mRes].ANom = (int*)malloc(sizeof(int)*CRes[mRes].nNom);
-                    memcpy(CRes[mRes].ANom, C2[mRes].ANom, sizeof(int)*CRes[mRes].nNom);
+                    CRes[mRes].ANom = (int*)malloc(sizeof(int)*(CRes[mRes].nNom+1));
+                    for (int kk = 0; kk <= CRes[mRes].nNom; kk++)
+                        CRes[mRes].ANom[kk] = C2[mRes].ANom[kk];
+                    //memcpy(CRes[mRes].ANom, C2[mRes].ANom, CRes[mRes].nNom+1);
                     
                     CRes[mRes].nDeno = C2[mRes].nDeno;
-                    CRes[mRes].ADeno = (int*)malloc(sizeof(int)*CRes[mRes].nDeno);
-                    memcpy(CRes[mRes].ADeno, C2[mRes].ADeno, sizeof(int)*CRes[mRes].nDeno);
+                    CRes[mRes].ADeno = (int*)malloc(sizeof(int)*(CRes[mRes].nDeno+1));
+                    for (int kk = 0; kk <= CRes[mRes].nDeno; kk++)
+                        CRes[mRes].ADeno[kk] = C2[mRes].ADeno[kk];
+                    //memcpy(CRes[mRes].ADeno, C2[mRes].ADeno, CRes[mRes].nDeno+1);
                 }
                 else
                 {
@@ -2386,15 +2640,19 @@ void SUB_PP_P(int m1, Q *C1, int m2, Q *C2, int &mRes, Q *&CRes)
                     
                     CRes[mRes].sign = C1[mRes].sign;
                     CRes[mRes].nNom = C1[mRes].nNom;
-                    CRes[mRes].ANom = (int*)malloc(sizeof(int)*CRes[mRes].nNom);
-                    memcpy(CRes[mRes].ANom, C1[mRes].ANom, sizeof(int)*CRes[mRes].nNom);
+                    CRes[mRes].ANom = (int*)malloc(sizeof(int)*(CRes[mRes].nNom+1));
+                    for (int kk = 0; kk <= CRes[mRes].nNom; kk++)
+                        CRes[mRes].ANom[kk] = C1[mRes].ANom[kk];
+                    //memcpy(CRes[mRes].ANom, C1[mRes].ANom, CRes[mRes].nNom+1);
                     
                     CRes[mRes].nDeno = C1[mRes].nDeno;
-                    CRes[mRes].ADeno = (int*)malloc(sizeof(int)*CRes[mRes].nDeno);
-                    memcpy(CRes[mRes].ADeno, C1[mRes].ADeno, sizeof(int)*CRes[mRes].nDeno);
+                    CRes[mRes].ADeno = (int*)malloc(sizeof(int)*(CRes[mRes].nDeno+1));
+                    for (int kk = 0; kk <= CRes[mRes].nDeno; kk++)
+                        CRes[mRes].ADeno[kk] = C1[mRes].ADeno[kk];
+                    //memcpy(CRes[mRes].ADeno, C1[mRes].ADeno, CRes[mRes].nDeno+1);
                 }
             }
-        }
+        //}
     }
     
     if (m1 > m2)
@@ -2423,7 +2681,10 @@ void SUB_PP_P(int m1, Q *C1, int m2, Q *C2, int &mRes, Q *&CRes)
                 mRes = i;
                 CRes = (Q*)realloc(CRes, sizeof(Q)*(mRes+1));
                 
-                CRes[mRes].sign = C2[mRes].sign;
+                if (C2[mRes].sign == 0)
+                    CRes[mRes].sign = 1;
+                else
+                    CRes[mRes].sign = 0;
                 CRes[mRes].nNom = C2[mRes].nNom;
                 CRes[mRes].ANom = C2[mRes].ANom;
                 CRes[mRes].nDeno = C2[mRes].nDeno;
@@ -2444,6 +2705,140 @@ void SUB_PP_P(int m1, Q *C1, int m2, Q *C2, int &mRes, Q *&CRes)
             mRes--;
         }
     }
+}
+
+void MUL_PQ_P(int m, Q* C, Q& Num, int& mRes, Q* &CRes)
+{
+    CRes = (Q*)malloc(sizeof(Q)*(m+1));
+    for (int i = 0; i <=m; i++)
+    {
+        CRes[i].sign = 0;
+        CRes[i].nNom = 0;
+        CRes[i].ANom = (int*)malloc(sizeof(int));
+        CRes[i].ANom[0] = 0;
+        
+        CRes[i].nDeno = 0;
+        CRes[i].ADeno = (int*)malloc(sizeof(int));
+        CRes[i].ADeno[0] = 0;
+    }
+    mRes = m;
+    for (int i = 0; i <= m; i++)
+    {
+        if ((C[i].nNom == 0 && C[i].ANom[0] == 0))
+        {
+            CRes[i].sign = 0;
+            CRes[i].nNom = 0;
+            CRes[i].ANom = (int*)malloc(sizeof(int));
+            CRes[i].ANom[0] = 0;
+            
+            CRes[i].nDeno = 0;
+            CRes[i].ADeno = (int*)malloc(sizeof(int));
+            CRes[i].ADeno[0] = 0;
+        }
+        else
+        {
+            /*cout << "Num.sign: " << Num.sign << endl;
+            cout << "Num.nNom: " << Num.nNom << endl;
+            cout << "Num.ANom: " << Num.ANom << endl;
+            cout << "Num.nDeno: " << Num.nDeno << endl;
+            cout << "Num.ADeno: " << Num.ADeno << endl << endl;
+            cout << "C[i].sign: " << C[i].sign << endl;
+            cout << "C[i].nNom: " << C[i].nNom << endl;
+            cout << "C[i].ANom: " << C[i].ANom << endl;
+            cout << "C[i].nDeno: " << C[i].nDeno << endl;
+            cout << "C[i].ADeno: " << C[i].ADeno << endl << endl;*/
+            
+            MUL_QQ_Q(Num.sign, Num.nNom, Num.nDeno, Num.ANom, Num.ADeno,
+                     C[i].sign, C[i].nNom+1, C[i].nDeno+1, C[i].ANom, C[i].ADeno,
+                     CRes[i].sign, CRes[i].nNom, CRes[i].nDeno, CRes[i].ANom, CRes[i].ADeno);
+            cout << "CRes[i].nNom: " << CRes[i].nNom << endl;
+            cout << "CRes[i].ANom: ";
+            for (int k = 0; k < CRes[i].nNom; k++)
+                cout << CRes[i].ANom[k];
+            cout << endl;
+            cout << "CRes[i].nDeno: " << CRes[i].nDeno << endl;
+            cout << "CRes[i].ADeno: ";
+            for (int k = 0; k < CRes[i].nDeno; k++)
+                cout << CRes[i].ADeno[k];
+            cout << endl << endl;
+            CRes[i].nNom -= 1; CRes[i].nDeno -= 1;
+            
+            /*cout << "C[i].sign: " << C[i].sign << " C[i].nNom: " << C[i].nNom << " C[i].nDeno: " << C[i].nDeno << " C[i].ANom: ";
+            for (int k = 0; k <= C[i].nNom; k++)
+                cout << C[i].ANom[k];
+            cout << " C[i].ADeno: ";
+            for (int k = 0; k <= C[i].nDeno; k++)
+                cout << C[i].ADeno[k];
+            cout << endl << "CRes[i].sign: " << CRes[i].sign << " CRes[i].nNom: " << CRes[i].nNom << " CRes[i].nDeno: " << CRes[i].nDeno << " CRes[i].ANom: ";
+            for (int k = 0; k <= CRes[i].nNom; k++)
+                cout << CRes[i].ANom[k];
+            cout << " CRes[i].ADeno: ";
+            for (int k = 0; k <= CRes[i].nDeno; k++)
+                cout << CRes[i].ADeno[k];
+            cout << endl;*/
+        }
+    }
+    
+    //Удаляем нули из высших степеней, понижая её
+    bool triggered = false;
+    for (int i = mRes; i >= 0 && !triggered; i--)
+    {
+        triggered = !(CRes[i].nNom == 0 && CRes[i].ANom[0] == 0);
+        if (!triggered)
+        {
+            free(CRes[i].ANom);
+            free(CRes[i].ADeno);
+            mRes--;
+        }
+    }
+}
+
+void MUL_Pxk_P(int m, Q *C, int k, int &mRes, Q* &CRes)
+{
+    if (k >= 1)
+    {
+        mRes = m+k;
+        CRes = (Q*)malloc(sizeof(Q)*(mRes+1));
+        for (int i = 0; i < k; i++)
+        {
+            CRes[i].sign = 0;
+            CRes[i].nNom = 0;
+            CRes[i].ANom = (int*)malloc(sizeof(int));
+            CRes[i].ANom[0] = 0;
+            CRes[i].nDeno = 0;
+            CRes[i].ADeno = (int*)malloc(sizeof(int));
+            CRes[i].ADeno[0] = 0;
+        }
+        for (int i = k; i <= mRes; i++)
+        {
+            CRes[i].sign = C[i-k].sign;
+            CRes[i].nNom = C[i-k].nNom;
+            CRes[i].ANom = (int*)malloc(sizeof(int)*(CRes[i].nNom+1));
+            for (int kk = 0; kk <= CRes[i].nNom; kk++)
+                CRes[i].ANom[kk] = C[i-k].ANom[kk];
+            
+            CRes[i].nDeno = C[i-k].nDeno;
+            CRes[i].ADeno = (int*)malloc(sizeof(int)*(CRes[i].nDeno+1));
+            for (int kk = 0; kk <= CRes[i].nDeno; kk++)
+                CRes[i].ADeno[kk] = C[i-k].ADeno[kk];
+            //memcpy(CRes[i].ADeno, C[i-k].ADeno, CRes[i].nDeno+1);
+        }
+    }
+    else
+    {
+        mRes = m;
+        CRes = C;
+    }
+}
+
+Q LED_P_Q(int m, Q *C)
+{
+    return C[m];
+}
+
+int DEG_P_N(int m, Q *C)
+{
+    return m;
 }
 
 void naturalNum() // Модуль, в котором идут операции с натуральными числами
@@ -3519,6 +3914,19 @@ void fractionNum() // Модуль, в котором идёт работа с �
                     printf("Введите знаменатель второй дроби: ");
                     notZero(skipSign, n1_1, A1_1);
                     
+                    /*cout << "b: " << b << endl;
+                    cout << "n0: " << n0 << endl;
+                    cout << "A0: " << A0 << endl;
+                    cout << "skipSign: " << skipSign << endl;
+                    cout << "n1: " << n1 << endl;
+                    cout << "A1: " << A1 << endl << endl;
+                    cout << "b_1: " << b_1 << endl;
+                    cout << "n0_1: " << n0_1 << endl;
+                    cout << "A0_1: " << A0_1 << endl;
+                    cout << "skipSign: " << skipSign << endl;
+                    cout << "n1_1: " << n1_1 << endl;
+                    cout << "A1_1: " << A1_1 << endl;*/
+                    
                     MUL_QQ_Q(b, n0, n1, A0, A1, b_1, n0_1, n1_1, A0_1, A1_1, b_result, n0_result, n1_result, A0_result, A1_result); //умножение дробей
                     
                     printf("\nРезультат: ");
@@ -3593,7 +4001,7 @@ void polyNum() // Модуль, в котором идёт работа с мн�
 {
     string module[13] = { "1. Сложение многочленов",
         "2. Вычитание многочленов",
-        "3*. Умножение многочлена на рациональное число",
+        "3. Умножение многочлена на рациональное число",
         "4. Умножение многочлена на x^k",
         "5. Старший коэффициент многочлена",
         "6*. Степень многочлена",
@@ -3609,11 +4017,9 @@ void polyNum() // Модуль, в котором идёт работа с мн�
     int index = 0, tmp, prevIndex = -1;
     
     // Переменные для case
-    int m,
-        *C = NULL;
-    
-    int m1 = -1, m2 = -1, mRes = -1;
-    Q *C1 = NULL, *C2 = NULL, *CRes = NULL;
+    int m = -1, m1 = -1, m2 = -1, mRes = -1;
+    Q *C = NULL, *C1 = NULL, *C2 = NULL, *CRes = NULL, Num;
+    int Sign = 0, k = 0;
     
     do
     {
@@ -3709,6 +4115,7 @@ void polyNum() // Модуль, в котором идёт работа с мн�
                     CRes = NULL;
                     
                     cin.ignore();
+                    
                     //  5/6x^5 + 3x^4 - x + 12
                     cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
                     InputPolynom(m1, C1);
@@ -3718,9 +4125,29 @@ void polyNum() // Модуль, в котором идёт работа с мн�
                     InputPolynom(m2, C2);
                     ADD_PP_P(m1, C1, m2, C2, mRes, CRes);
                     
+                    //cout << "   =" << endl;
+                    //cout << "Результат: " << endl;
+                    cout << endl;
+                    PrintPolynomSigned(m1, C1);
+                    cout << "   +" << endl;
+                    PrintPolynomSigned(m2, C2);
                     cout << "   =" << endl;
-                    cout << "Результат: " << endl;
-                    PrintPolynom(mRes, CRes);
+                    PrintPolynomSigned(mRes, CRes);
+                    
+                    for (int i = 0; i <= m1; i++) {
+                        free(C1[i].ANom);
+                        free(C1[i].ADeno);}
+                    free(C1);
+                    
+                    for (int i = 0; i <= m2; i++) {
+                        free(C2[i].ANom);
+                        free(C2[i].ADeno);}
+                    free(C2);
+                    
+                    for (int i = 0; i <= mRes; i++) {
+                        free(CRes[i].ANom);
+                        free(CRes[i].ADeno);}
+                    free(CRes);
                     
                     system("pause");
                     break;
@@ -3736,6 +4163,7 @@ void polyNum() // Модуль, в котором идёт работа с мн�
                     CRes = NULL;
                     
                     cin.ignore();
+                    
                     //  5/6x^5 + 3x^4 - x + 12
                     cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
                     InputPolynom(m1, C1);
@@ -3745,26 +4173,144 @@ void polyNum() // Модуль, в котором идёт работа с мн�
                     InputPolynom(m2, C2);
                     SUB_PP_P(m1, C1, m2, C2, mRes, CRes);
                     
+                    //cout << "   =" << endl;
+                    //cout << "Результат: " << endl;
+                    cout << endl;
+                    PrintPolynomSigned(m1, C1);
+                    cout << "   -" << endl;
+                    PrintPolynomSigned(m2, C2);
                     cout << "   =" << endl;
-                    cout << "Результат: " << endl;
-                    PrintPolynom(mRes, CRes);
+                    PrintPolynomSigned(mRes, CRes);
+                    
+                    for (int i = 0; i <= m1; i++) {
+                        free(C1[i].ANom);
+                        free(C1[i].ADeno);}
+                    free(C1);
+                    
+                    for (int i = 0; i <= m2; i++) {
+                        free(C2[i].ANom);
+                        free(C2[i].ADeno);}
+                    free(C2);
+                    
+                    for (int i = 0; i <= mRes; i++) {
+                        free(CRes[i].ANom);
+                        free(CRes[i].ADeno);}
+                    free(CRes);
                     
                     system("pause");
                     break;
                     
                 case 2:
                     cout << "Умножение многочлена на рациональное число." << endl << endl;
+                    
+                    m = -1;
+                    mRes = -1;
+                    C = NULL;
+                    CRes = NULL;
+                    
+                    cin.ignore();
+                    
+                    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+                    InputPolynom(m, C);
+                    
+                    cout << "Введите числитель умножаемого числа: ";
+                    inputNumber(Num.sign, Num.nNom, Num.ANom);
+                    cout << "Введите знаменатель умножаемого числа: ";
+                    notZero(Sign, Num.nDeno, Num.ADeno);
+                    if ((Num.sign == 0 && Sign == 1) || (Num.sign == 1 && Sign == 0))
+                        Num.sign = 1;
+                    
+                    MUL_PQ_P(m, C, Num, mRes, CRes);
+                    
+                    cout << endl;
+                    PrintPolynomSigned(m, C);
+                    cout << "   *" << endl;
+                    if (Num.sign == 1) {cout << "-";}
+                    for (int i = 0; i < Num.nNom; i++)
+                        cout << Num.ANom[i];
+                    cout << "/";
+                    for (int i = 0; i < Num.nDeno; i++)
+                        cout << Num.ADeno[i];
+                    cout << endl << "   =" << endl;
+                    PrintPolynomSigned(mRes, CRes);
+                    
+                    for (int i = 0; i <= m; i++) {
+                        free(C[i].ANom);
+                        free(C[i].ADeno);}
+                    free(C);
+                    
+                    for (int i = 0; i <= mRes; i++) {
+                        free(CRes[i].ANom);
+                        free(CRes[i].ADeno);}
+                    free(CRes);
+                    
+                    system("pause");
                     break;
                     
                 case 3:
                     cout << "Умножение многочлена на x^k." << endl << endl;
+                    
+                    m = -1;
+                    mRes = -1;
+                    C = NULL;
+                    CRes = NULL;
+                    k = 0;
+                    
+                    cin.ignore();
+                    
+                    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+                    InputPolynom(m, C);
+                    
+                    cout << "Введите степень k: ";
+                    inputDig(k);
+                    //cin >> k;
+                    
+                    MUL_Pxk_P(m, C, k, mRes, CRes);
+                    
+                    cout << endl;
+                    PrintPolynomSigned(m, C);
+                    cout << "   *" << endl;
+                    cout << "x^" << k << endl;
+                    cout << "   =" << endl;
+                    PrintPolynomSigned(mRes, CRes);
+                    
+                    for (int i = 0; i <= m; i++) {
+                        free(C[i].ANom);
+                        free(C[i].ADeno);}
+                    free(C);
+                    
+                    for (int i = 0; i <= mRes; i++) {
+                        free(CRes[i].ANom);
+                        free(CRes[i].ADeno);}
+                    free(CRes);
+                    
+                    system("pause");
                     break;
                     
                 case 4:
                     cout << "Старший коэффициент многочлена." << endl << endl;
                     
+                    m = -1;
+                    C = NULL;
+                    
+                    cin.ignore();
+                    
+                    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+                    InputPolynom(m, C);
+                    
+                    cout << endl;
+                    PrintPolynomSigned(m, C);
+                    cout << "   Высший коэффициент:" << endl;
+                    Num = LED_P_Q(m, C);
+                    for (int i = 0; i <= Num.nNom; i++)
+                        cout << Num.ANom[i];
+                    cout << "/";
+                    for (int i = 0; i <= Num.nDeno; i++)
+                        cout << Num.ADeno[i];
+                    cout << endl;
+                    
                     // Дмитрий Богряков, группа 7307
-                    puts("Старший коэффициент многочлена");
+                    /*puts("Старший коэффициент многочлена");
                     cout << "Введите степень многочлена: ";
                     cin >> m;
                     cout << "Введите коэффициенты: \n";
@@ -3774,14 +4320,34 @@ void polyNum() // Модуль, в котором идёт работа с мн�
                         cout << "c[" << i + 1 << "] = ";
                         cin >> *(C + i);
                     }
-                    LED_P_Q(m, C);
+                    LED_P_Q(m, C);*/
+                    
+                    for (int i = 0; i <= m; i++) {
+                        free(C[i].ANom);
+                        free(C[i].ADeno);}
+                    free(C);
+                    
                     system("pause");
                     break;
                     
                 case 5:
                     cout << "Степень многочлена." << endl << endl;
                     
-                    puts("Степень многочлена");
+                    m = -1;
+                    C = NULL;
+                    
+                    cin.ignore();
+                    
+                    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+                    InputPolynom(m, C);
+                    
+                    cout << endl;
+                    PrintPolynomSigned(m, C);
+                    cout << "   Степень многочлена:" << endl;
+                    cout << DEG_P_N(m, C) << endl;
+                    cout << endl;
+                    
+                    /*puts("Степень многочлена");
                     
                     cout << "Введите степень многочлена: ";
                     cin >> m;
@@ -3793,7 +4359,13 @@ void polyNum() // Модуль, в котором идёт работа с мн�
                         cin >> *(C + i);
                     }
                     cout << "Ответ: " << DEG_P_N(m);
-                    puts("");
+                    puts("");*/
+                    
+                    for (int i = 0; i <= m; i++) {
+                        free(C[i].ANom);
+                        free(C[i].ADeno);}
+                    free(C);
+                    
                     system("pause");
                     break;
                     
@@ -3821,7 +4393,7 @@ void polyNum() // Модуль, в котором идёт работа с мн�
                     cout << "Производная многочлена." << endl << endl;
                     
                     // Алина Белоусова, группа 7307
-                    printf("Введите старшую степень многочлена: ");
+                    /*printf("Введите старшую степень многочлена: ");
                     _scanf("%d", &m);
                     
                     C = (int*)realloc(C, (2 * m + 2) * sizeof(int));
@@ -3842,9 +4414,8 @@ void polyNum() // Модуль, в котором идёт работа с мн�
                         
                         _scanf("%d", &C[i]);
                     }
-                    DER_PP_P(m, C);
+                    DER_PP_P(m, C);*/
                     
-                    puts("");
                     system("pause");
                     break;
                     
@@ -4076,7 +4647,7 @@ void fixJournal() // Журнал всех исправлений
          "6. Исправление мелких ошибок \n"
          "Отчёт обновлён 11.04.2018 в 17:00 \n\n"
          
-         "(Актуальная) Версия 1.3.0 RELEASE - Список изменений: \n"
+         "Версия 1.3.0 RELEASE - Список изменений: \n"
          "1. Значительно изменён ввод чисел во всех функциях \n"
          "1.1 Ввод стал значительно удобнее \n"
          "1.2 Теперь ввести можно только цифры или знак минус \n"
@@ -4094,6 +4665,24 @@ void fixJournal() // Журнал всех исправлений
          "14. Исправление мелких ошибок \n"
          "15. Исправление серьёзных ошибок \n"
          "Отчёт обновлён 13.04.2018 в 00:00 \n\n"
+         
+         "(Актуальная) Версия 1.4.0 POLYNOM UPDATE - Список изменений: \n"
+         "1. N-13 теперь работает так, как надо \n"
+         "2. Z-6 исправлена и работает теперь при всех случаях \n"
+         "3. Z-7 исправлена и работает теперь при всех случаях \n"
+         "4. Q-1 исправлена и работает теперь при всех случаях \n"
+         "5. Q-5 исправлена и работает теперь при всех случаях \n"
+         "6. Q-6 исправлена и работает теперь при всех случаях \n"
+         "7. Q-7 исправлена и работает теперь при всех случаях \n"
+         "8. Добавлена функция ввода многочленов \n"
+         "9. Добавлены функции вывода многочленов на экран \n"
+         "10. Добавлена функция P - 1 (III уровень) \n"
+         "11. Добавлена функция P - 2 (III уровень) \n"
+         "12. Добавлена функция P - 3 (III уровень) \n"
+         "13. Добавлена функция P - 4 (III уровень) \n"
+         "14. Добавлена функция P - 5 (III уровень) \n"
+         "15. Добавлена функция P - 6 (III уровень) \n"
+         "Отчёт обновлён 20.04.2018 в 15:00 \n\n"
          
          "Список будущих нововведений (без хронологического порядка):\n"
          "1. Заполнение всех функций во всех модулях (III уровень) \n"
@@ -4145,7 +4734,7 @@ void menuPick() // Выбор меню
         {
             prevIndex = index;
             system("cls");
-            puts("Версия программы: 1.3.2 RELEASE \n\n"
+            puts("Версия программы: 1.4.0 POLYNOM UPDATE \n\n"
                  "Здравствуйте!\n"
                  "Для управления программой используйте стрелки вверх/вниз на клавиатуре\n"
                  "Для входа в пункт меню используйте Enter, для выхода - Esc.\n"
@@ -4220,6 +4809,10 @@ void menuPick() // Выбор меню
 #endif
 }
 
+void DIV_PP_P(int m1, Q *C1, int m2, Q *C2, int &mRes, Q* &CRes)
+{
+}
+
 int main() // Основная функция
 {
     setlocale(LC_ALL, "RUS"); // Подключение русской локализации
@@ -4231,30 +4824,21 @@ int main() // Основная функция
      cout << (int)b << "\n";
      } while ((char)b != 'j'); */
     
-    /*int m = -1;
-    int *C = NULL;
-    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
-    InputPolynom(m, C);
-    PrintPolynomSigned(m, C);*/
-    
-    /*int m = -1;
-    Q *C = NULL;
-    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
-    InputPolynom(m, C);
-    PrintPolynom(m, C);*/
-    
-    int m1 = -1, m2 = -1, mRes = -1;
+    /*int m1 = -1, m2 = -1, mRes = -1;
     Q *C1 = NULL, *C2 = NULL, *CRes = NULL;
-    //  5/6x^5 + 3x^4 - x + 12
+    
     cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
     InputPolynom(m1, C1);
-    PrintPolynom(m1, C1);
-    //  5/6x^5 - 3x^4 + x + 12
-    cout << "Введите многочлен в формате: 1/2 - x + 3/2x^3 - 12*x^6 + ..." << endl;
+    cout << "Введите многочлен в формате: 1/2 - x + ..." << endl;
     InputPolynom(m2, C2);
-    PrintPolynom(m2, C2);
-    ADD_PP_P(m1, C1, m2, C2, mRes, CRes);
-    PrintPolynom(mRes, CRes);
+    DIV_PP_P(m1, C1, m2, C2, mRes, CRes);
+    
+    cout << endl;
+    PrintPolynomSigned(m1, C1);
+    cout << "   div" << endl;
+    PrintPolynomSigned(m2, C2);
+    cout << "   =" << endl;
+    PrintPolynomSigned(mRes, CRes);*/
     
     menuPick();
     
